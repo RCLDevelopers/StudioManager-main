@@ -40,9 +40,9 @@ const menuItems = [
     children: [],
   },
   {
-    title: 'Calendar',
-    path: '/calendar',
-    icon: <CalendarMonthIcon />,
+    title: 'Studios',
+    path: '/studios',
+    icon: <LayersIcon />,
     children: [],
   },
   {
@@ -66,14 +66,38 @@ const menuItems = [
     ],
   },
   {
-    title: 'Orders',
-    path: '/orders',
+    title: 'Bookings',
+    path: '/bookings',
     icon: <ShoppingCartIcon />,
     children: [
-      { title: 'Order List', path: '/orders' },
-      { title: 'Add Order', path: '/orders/add' },
-      { title: 'Order Status', path: '/orders/status' },
+      { title: 'Booking List', path: '/bookings' },
+      { title: 'Add Booking', path: '/bookings/add' },
+      { title: 'Booking Status', path: '/bookings/status' },
     ],
+  },
+  {
+    title: 'Packages',
+    path: '/packages',
+    icon: <LayersIcon />,
+    children: [],
+  },
+  {
+    title: 'Payment Gateways',
+    path: '/payment-gateways',
+    icon: <LayersIcon />,
+    children: [],
+  },
+  {
+    title: 'Equipments',
+    path: '/equipments',
+    icon: <LayersIcon />,
+    children: [],
+  },
+  {
+    title: 'Calendar',
+    path: '/calendar',
+    icon: <CalendarMonthIcon />,
+    children: [],
   },
   {
     title: 'Tasks',
@@ -266,7 +290,7 @@ const Sidebar = ({ open, onClose, variant }: SidebarProps) => {
         textAlign: 'center',
       }}>
         <Typography variant="caption" color="text.secondary">
-          2023 Studio Manager
+          2025 Studio Manager
         </Typography>
       </Box>
     </Box>
