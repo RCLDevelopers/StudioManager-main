@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="24" height="24" rx="12" fill="#F1F5F9"/>
+  <mask id="mask0" mask-type="alpha" maskUnits="userSpaceOnUse" x="4" y="6" width="16" height="12">
+    <rect x="4" y="6" width="16" height="12" fill="white"/>
+  </mask>
+  <g mask="url(#mask0)">
+    <rect x="4" y="6" width="16" height="12" fill="white"/>
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M4 7.2H20V6H4V7.2ZM4 9.6H20V8.4H4V9.6ZM4 12H20V10.8H4V12ZM4 14.4H20V13.2H4V14.4ZM4 16.8H20V15.6H4V16.8ZM4 18H20V16.8H4V18Z" fill="#D80027"/>
+    <rect x="4" y="6" width="9" height="7" fill="#2E42A5"/>
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M5 6.5L5.5 7L5 7.5L4.5 7L5 6.5ZM7 6.5L7.5 7L7 7.5L6.5 7L7 6.5ZM9 6.5L9.5 7L9 7.5L8.5 7L9 6.5ZM11 6.5L11.5 7L11 7.5L10.5 7L11 6.5ZM6 7.5L6.5 8L6 8.5L5.5 8L6 7.5ZM8 7.5L8.5 8L8 8.5L7.5 8L8 7.5ZM10 7.5L10.5 8L10 8.5L9.5 8L10 7.5ZM5 8.5L5.5 9L5 9.5L4.5 9L5 8.5ZM7 8.5L7.5 9L7 9.5L6.5 9L7 8.5ZM9 8.5L9.5 9L9 9.5L8.5 9L9 8.5ZM11 8.5L11.5 9L11 9.5L10.5 9L11 8.5ZM6 9.5L6.5 10L6 10.5L5.5 10L6 9.5ZM8 9.5L8.5 10L8 10.5L7.5 10L8 9.5ZM10 9.5L10.5 10L10 10.5L9.5 10L10 9.5ZM5 10.5L5.5 11L5 11.5L4.5 11L5 10.5ZM7 10.5L7.5 11L7 11.5L6.5 11L7 10.5ZM9 10.5L9.5 11L9 11.5L8.5 11L9 10.5ZM11 10.5L11.5 11L11 11.5L10.5 11L11 10.5ZM6 11.5L6.5 12L6 12.5L5.5 12L6 11.5ZM8 11.5L8.5 12L8 12.5L7.5 12L8 11.5ZM10 11.5L10.5 12L10 12.5L9.5 12L10 11.5Z" fill="white"/>
+  </g>
+</svg> 

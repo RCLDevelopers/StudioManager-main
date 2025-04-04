@@ -1,16 +1,15 @@
-import { useRoutes } from 'react-router-dom';
-import routes from './routes';
-import { ThemeProvider } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
-import theme from './theme';
+import { Routes, Route } from 'react-router-dom';
+import DashboardLayout from './layouts/DashboardLayout';
+import Dashboard from './pages/Dashboard';
 
 const App = () => {
-  const content = useRoutes(routes);
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      {content}
-    </ThemeProvider>
+    <Routes>
+      <Route path="/" element={<DashboardLayout />}>
+        <Route index element={<Dashboard />} />
+        {/* Add more routes here */}
+      </Route>
+    </Routes>
   );
 };
 
