@@ -1,7 +1,17 @@
-import { Outlet } from 'react-router-dom';
+import { useRoutes } from 'react-router-dom';
+import routes from './routes';
+import { ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import theme from './theme';
 
 const App = () => {
-  return <Outlet />;
+  const content = useRoutes(routes);
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      {content}
+    </ThemeProvider>
+  );
 };
 
 export default App; 

@@ -1,21 +1,23 @@
-import { Button, Stack, SvgIconProps, Typography } from '@mui/material';
-import IconifyIcon from '@/components/base/IconifyIcon';
+import React from 'react';
+import { Box, IconButton, Stack, Typography } from '@mui/material';
+import { SvgIconProps } from '@mui/material/SvgIcon';
 
 interface Legend {
-  [key: string]: boolean;
+  'Last Month': boolean;
+  'This Month': boolean;
 }
 
 interface LegendToggleButtonProps {
   name: keyof Legend;
   icon?: string;
-  svgIcon?: (props: SvgIconProps) => JSX.Element;
+  svgIcon?: React.ComponentType<SvgIconProps>;
   color: string;
   value?: string;
   legend: Legend;
-  onHandleLegendToggle: (name: keyof Legend) => void;
+  onHandleLegendToggle: (name: string | number) => void;
 }
 
-const LegendToggleButton = ({
+const LegendToggleButton: React.FC<LegendToggleButtonProps> = ({
   name,
   icon,
   svgIcon: SvgIcon,
@@ -23,31 +25,38 @@ const LegendToggleButton = ({
   value,
   legend,
   onHandleLegendToggle,
-}: LegendToggleButtonProps) => {
-  const Icon = icon ? (
-    <IconifyIcon icon={icon} sx={{ color }} />
-  ) : SvgIcon ? (
-    <SvgIcon sx={{ color }} />
-  ) : null;
-
+}) => {
   return (
-    <Stack>
-      <Button
+    <Stack direction="row" alignItems="center" spacing={1}>
+      <IconButton
         size="small"
-        startIcon={Icon}
         onClick={() => onHandleLegendToggle(name)}
-        sx={{ opacity: legend[name] ? 0.5 : 1, '&:hover': { bgcolor: 'transparent' } }}
-        disableRipple
+        sx={{
+          backgroundColor: legend[name] ? color : 'transparent',
+          border: `1px solid ${color}`,
+          '&:hover': {
+            backgroundColor: legend[name] ? color : 'transparent',
+          },
+        }}
       >
-        <Typography variant="button" whiteSpace="nowrap" alignSelf="end" sx={{ color: 'grey.200' }}>
+        {icon ? (
+          <Typography variant="body2" color={legend[name] ? 'white' : color}>
+            {icon}
+          </Typography>
+        ) : SvgIcon ? (
+          <SvgIcon sx={{ color: legend[name] ? 'white' : color }} />
+        ) : null}
+      </IconButton>
+      <Box>
+        <Typography variant="body2" color="text.secondary">
           {name}
         </Typography>
-      </Button>
-      {value && (
-        <Typography variant="subtitle2" sx={{ height: 20, ml: 4, fontWeight: 'fontWeightMedium' }}>
-          {value}
-        </Typography>
-      )}
+        {value && (
+          <Typography variant="subtitle2" color="text.primary">
+            {value}
+          </Typography>
+        )}
+      </Box>
     </Stack>
   );
 };

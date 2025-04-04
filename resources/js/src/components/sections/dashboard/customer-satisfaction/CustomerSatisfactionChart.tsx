@@ -1,19 +1,19 @@
-import { alpha, useTheme } from '@mui/material';
+import React, { MutableRefObject, useMemo } from 'react';
+import { useTheme } from '@mui/material/styles';
 import * as echarts from 'echarts/core';
 import {
   TooltipComponent,
-  TooltipComponentOption,
   GridComponent,
-  GridComponentOption,
   LegendComponent,
+  TooltipComponentOption,
+  GridComponentOption,
   LegendComponentOption,
 } from 'echarts/components';
 import { LineChart, LineSeriesOption } from 'echarts/charts';
 import { UniversalTransition } from 'echarts/features';
 import { CanvasRenderer } from 'echarts/renderers';
-import { MutableRefObject, useMemo } from 'react';
+import ReactEchart from '@/components/common/ReactEchart';
 import EChartsReactCore from 'echarts-for-react/lib/core';
-import ReactEchart from '@/components/base/ReactEhart';
 
 echarts.use([
   TooltipComponent,
@@ -24,117 +24,88 @@ echarts.use([
   UniversalTransition,
 ]);
 
-type EChartsOption = echarts.ComposeOption<
+type ECOption = echarts.ComposeOption<
   TooltipComponentOption | GridComponentOption | LegendComponentOption | LineSeriesOption
 >;
 
-interface CustomerSatisfactionChart {
+interface CustomerSatisfactionChartProps {
   chartRef: MutableRefObject<EChartsReactCore | null>;
   data: {
-    'last month': number[];
-    'this month': number[];
+    lastMonth: number[];
+    thisMonth: number[];
   };
-  style?: {
-    height?: number;
-    width?: number;
-  };
+  style?: React.CSSProperties;
 }
 
-const CustomerSatisfactionChart = ({ chartRef, data, style }: CustomerSatisfactionChart) => {
+const CustomerSatisfactionChart = ({ chartRef, data, style }: CustomerSatisfactionChartProps) => {
   const theme = useTheme();
 
-  const customerSatisfactionChartOption = useMemo(() => {
-    const option: EChartsOption = {
-      color: [theme.palette.info.main, theme.palette.success.dark],
+  const customerSatisfactionChartOption: ECOption = useMemo(() => {
+    return {
       tooltip: {
-        trigger: 'item',
-        show: true,
+        trigger: 'axis' as const,
+        axisPointer: {
+          type: 'cross' as const,
+          label: {
+            backgroundColor: theme.palette.grey[500],
+          },
+        },
       },
-
-      legend: {
-        show: false,
-      },
-
       grid: {
-        top: 0,
-        left: -26,
-        right: 4,
-        bottom: 0,
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
         containLabel: true,
       },
-
-      xAxis: [
-        {
-          type: 'category',
-          boundaryGap: false,
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-          show: false,
-        },
-      ],
-      yAxis: [
-        {
-          type: 'value',
-          show: false,
-        },
-      ],
+      xAxis: {
+        type: 'category' as const,
+        boundaryGap: false,
+        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+      },
+      yAxis: {
+        type: 'value' as const,
+      },
       series: [
         {
           name: 'Last Month',
-          type: 'line',
-          stack: 'Customer Satisfaction',
+          type: 'line' as const,
+          stack: 'Total',
           smooth: true,
-          areaStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              {
-                offset: 1,
-                color: alpha(theme.palette.info.main, 0),
-              },
-              {
-                offset: 0,
-                color: alpha(theme.palette.info.main, 0.31),
-              },
-            ]),
+          lineStyle: {
+            width: 2,
           },
-
+          showSymbol: false,
+          areaStyle: {
+            opacity: 0.2,
+          },
           emphasis: {
             focus: 'series',
           },
-          data: data['last month'],
-          symbol: 'circle',
-          symbolSize: 8,
+          data: data.lastMonth,
         },
         {
           name: 'This Month',
-          type: 'line',
-          stack: 'Customer Satisfaction',
+          type: 'line' as const,
+          stack: 'Total',
           smooth: true,
+          lineStyle: {
+            width: 2,
+          },
+          showSymbol: false,
           areaStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              {
-                offset: 1,
-                color: alpha(theme.palette.success.main, 0),
-              },
-              {
-                offset: 0,
-                color: alpha(theme.palette.success.main, 0.32),
-              },
-            ]),
+            opacity: 0.2,
           },
           emphasis: {
             focus: 'series',
           },
-          data: data['this month'],
-          symbol: 'circle',
-          symbolSize: 8,
+          data: data.thisMonth,
         },
       ],
     };
-    return option;
-  }, [theme, data]);
+  }, [data, theme.palette.grey]);
 
   return (
     <ReactEchart
-      echarts={echarts}
       option={customerSatisfactionChartOption}
       ref={chartRef}
       style={style}

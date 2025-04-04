@@ -10,24 +10,26 @@ import CustomerSatisfactionChart from './CustomerSatisfactionChart';
 const CustomerSatisfaction = () => {
   const chartRef = useRef<EChartsReactCore | null>(null);
   const [legend, setLegend] = useState({
-    'last month': false,
-    'this month': false,
+    'Last Month': false,
+    'This Month': false,
   });
 
   const totalLastMonthSatisfaction = useMemo(
-    () => getTotal(customerSatisfaction['last month']),
-    [customerSatisfaction['last month']],
+    () => getTotal(customerSatisfaction.lastMonth),
+    [customerSatisfaction.lastMonth],
   );
   const totalThisMonthSatisfaction = useMemo(
-    () => getTotal(customerSatisfaction['this month']),
-    [customerSatisfaction['this month']],
+    () => getTotal(customerSatisfaction.thisMonth),
+    [customerSatisfaction.thisMonth],
   );
 
-  const handleLegendToggle = (name: keyof typeof legend) => {
-    setLegend((prevState) => ({
-      ...prevState,
-      [name]: !prevState[name],
-    }));
+  const handleLegendToggle = (name: string | number) => {
+    if (typeof name === 'string' && (name === 'Last Month' || name === 'This Month')) {
+      setLegend((prev) => ({
+        ...prev,
+        [name]: !prev[name],
+      }));
+    }
 
     if (chartRef.current) {
       const instance = chartRef.current.getEchartsInstance();
@@ -46,7 +48,10 @@ const CustomerSatisfaction = () => {
 
       <CustomerSatisfactionChart
         chartRef={chartRef}
-        data={customerSatisfaction}
+        data={{
+          lastMonth: customerSatisfaction.lastMonth,
+          thisMonth: customerSatisfaction.thisMonth,
+        }}
         style={{ height: 182 }}
       />
 

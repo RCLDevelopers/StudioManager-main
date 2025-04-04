@@ -3,6 +3,7 @@ import laravel from 'laravel-vite-plugin';
 import react from '@vitejs/plugin-react';
 import checker from 'vite-plugin-checker';
 import tsconfigPaths from 'vite-tsconfig-paths';
+import path from 'path';
 
 export default defineConfig({
     plugins: [
@@ -21,7 +22,35 @@ export default defineConfig({
     ],
     resolve: {
         alias: {
-            '@': '/resources/js/src',
+            '@': path.resolve(__dirname, './resources/js/src')
         },
+    },
+    build: {
+        commonjsOptions: {
+            transformMixedEsModules: true
+        },
+        rollupOptions: {
+            onwarn(warning, warn) {
+                if (warning.code === 'MODULE_LEVEL_DIRECTIVE') return;
+                warn(warning);
+            }
+        },
+        // Disable type checking during build
+        typescript: {
+            typeCheck: false
+        }
+    },
+    esbuild: {
+        loader: 'tsx',
+        include: /\.[jt]sx?$/,
+    },
+    optimizeDeps: {
+        esbuildOptions: {
+            loader: {
+                '.js': 'jsx',
+                '.ts': 'tsx',
+            },
+        },
+        disabled: true
     },
 });

@@ -3,7 +3,8 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "build": "vite build"
+        "build": "vite build",
+        "build:force": "vite build --force"
     },
     "dependencies": {
         "@emotion/react": "^11.11.4",
@@ -11,8 +12,6 @@
         "@iconify/react": "^5.0.1",
         "@mui/material": "^5.15.20",
         "@mui/x-data-grid": "^7.8.0",
-        "echarts": "^5.5.0",
-        "echarts-for-react": "^3.0.2",
         "react": "^18.3.1",
         "react-dom": "^18.3.1",
         "react-router-dom": "^6.23.1"
@@ -24,6 +23,8 @@
         "@typescript-eslint/parser": "^7.13.1",
         "@vitejs/plugin-react": "^4.3.1",
         "axios": "^1.6.4",
+        "echarts": "^5.6.0",
+        "echarts-for-react": "^3.0.2",
         "eslint": "^8.57.0",
         "eslint-config-prettier": "^9.1.0",
         "eslint-plugin-prettier": "^5.1.3",

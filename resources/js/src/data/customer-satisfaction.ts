@@ -1,4 +1,6 @@
-export const customerSatisfaction = {
-  'last month': [30, 40, 35, 50, 49, 60, 70],
-  'this month': [23, 12, 54, 61, 32, 56, 81],
-}; 
+const customerSatisfaction = {
+  lastMonth: [28, 45, 35, 50, 49, 60, 70],
+  thisMonth: [45, 52, 38, 24, 33, 26, 21],
+};
+
+export { customerSatisfaction }; 
