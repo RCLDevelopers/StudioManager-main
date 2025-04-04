@@ -15,7 +15,7 @@ import { styled, alpha } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import { ReactComponent as USFlag } from '@/assets/icons/us-flag.svg';
+import FlagIcon from '@mui/icons-material/Flag';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -94,7 +94,7 @@ const Navbar = () => {
             IconComponent={KeyboardArrowDownIcon}
           >
             <MenuItem value="en">
-              <USFlag style={{ width: 24, height: 24 }} />
+              <FlagIcon sx={{ color: '#3B82F6' }} />
               <Typography>Eng (US)</Typography>
             </MenuItem>
           </StyledSelect>

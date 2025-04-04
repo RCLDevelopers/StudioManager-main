@@ -1,9 +1,11 @@
-import { Box, Container, Grid, Paper, Typography, Button } from '@mui/material';
+import { Box, Container, Grid, Typography, Button } from '@mui/material';
 import StatCard from '@/components/sections/dashboard/stats/StatCard';
 import VisitorInsights from '@/components/sections/dashboard/visitor-insights/VisitorInsights';
 import TotalRevenue from '@/components/sections/dashboard/total-revenue/TotalRevenue';
 import CustomerSatisfaction from '@/components/sections/dashboard/customer-satisfaction/CustomerSatisfaction';
 import TargetReality from '@/components/sections/dashboard/target-reality/TargetReality';
+import ProductPerformance from '@/components/sections/dashboard/product-performance/ProductPerformance';
+import WorldMap from '@/components/sections/dashboard/world-map/WorldMap';
 import ShowChartIcon from '@mui/icons-material/ShowChart';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
@@ -70,7 +72,10 @@ const Dashboard = () => {
           />
         </Grid>
         <Grid item xs={12}>
-          <VisitorInsights />
+          <WorldMap />
+        </Grid>
+        <Grid item xs={12}>
+          <ProductPerformance />
         </Grid>
         <Grid item xs={12} lg={8}>
           <TotalRevenue />
@@ -82,6 +87,11 @@ const Dashboard = () => {
           <TargetReality />
         </Grid>
       </Grid>
+      <Box sx={{ mt: 3, display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 1 }}>
+        <Typography variant="body2" color="text.secondary">
+          Made with ❤️ by ThemeWagon
+        </Typography>
+      </Box>
     </Container>
   );
 };

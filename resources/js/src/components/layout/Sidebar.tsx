@@ -7,6 +7,7 @@ import {
   ListItemIcon,
   ListItemText,
   Typography,
+  ListItemButton,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import DashboardIcon from '@mui/icons-material/Dashboard';
@@ -18,7 +19,7 @@ import AssessmentIcon from '@mui/icons-material/Assessment';
 import ChatIcon from '@mui/icons-material/Chat';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const DRAWER_WIDTH = 280;
 
@@ -46,7 +47,7 @@ interface StyledListItemProps {
   active?: boolean;
 }
 
-const StyledListItem = styled(ListItem, {
+const StyledListItemButton = styled(ListItemButton, {
   shouldForwardProp: (prop) => prop !== 'active',
 })<StyledListItemProps>(({ theme, active }) => ({
   margin: theme.spacing(0.5, 2),
@@ -74,6 +75,7 @@ const menuItems = [
 
 const Sidebar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
 
   return (
     <StyledDrawer variant="permanent">
@@ -90,24 +92,26 @@ const Sidebar = () => {
       </Logo>
       <List sx={{ flexGrow: 1, py: 2 }}>
         {menuItems.map((item) => (
-          <StyledListItem
-            key={item.text}
-            component={Link}
-            to={item.path}
-            active={location.pathname === item.path}
-          >
-            <ListItemIcon>{item.icon}</ListItemIcon>
-            <ListItemText primary={item.text} />
-          </StyledListItem>
+          <ListItem key={item.text} disablePadding>
+            <StyledListItemButton
+              onClick={() => navigate(item.path)}
+              active={location.pathname === item.path}
+            >
+              <ListItemIcon>{item.icon}</ListItemIcon>
+              <ListItemText primary={item.text} />
+            </StyledListItemButton>
+          </ListItem>
         ))}
       </List>
       <List>
-        <StyledListItem component="button" onClick={() => {}}>
-          <ListItemIcon>
-            <LogoutIcon />
-          </ListItemIcon>
-          <ListItemText primary="Sign Out" />
-        </StyledListItem>
+        <ListItem disablePadding>
+          <StyledListItemButton onClick={() => {}}>
+            <ListItemIcon>
+              <LogoutIcon />
+            </ListItemIcon>
+            <ListItemText primary="Sign Out" />
+          </StyledListItemButton>
+        </ListItem>
       </List>
     </StyledDrawer>
   );
