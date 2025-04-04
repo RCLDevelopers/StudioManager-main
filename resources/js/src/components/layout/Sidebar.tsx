@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Drawer, List, ListItem, ListItemIcon, ListItemText, ListItemButton, useTheme, useMediaQuery } from '@mui/material';
+import { Box, Drawer, List, ListItem, ListItemIcon, ListItemText, ListItemButton, SwipeableDrawer, useTheme } from '@mui/material';
 import { Link, useLocation } from 'react-router-dom';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import CameraIcon from '@mui/icons-material/Camera';
@@ -13,6 +13,7 @@ import { styled } from '@mui/material/styles';
 interface SidebarProps {
   open: boolean;
   onToggle: () => void;
+  isMobile: boolean;
 }
 
 const drawerWidth = 240;
@@ -30,9 +31,9 @@ const StyledDrawer = styled(Drawer)(({ theme }) => ({
     }),
     boxSizing: 'border-box',
     border: 'none',
-    backgroundColor: '#F8FAFC',
+    backgroundColor: '#fff',
     overflowX: 'hidden',
-    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+    boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
   },
   '&.collapsed .MuiDrawer-paper': {
     width: collapsedWidth,
@@ -44,25 +45,31 @@ const StyledDrawer = styled(Drawer)(({ theme }) => ({
 }));
 
 const StyledListItemButton = styled(ListItemButton)(({ theme }) => ({
-  margin: '4px 8px',
-  padding: '10px 16px',
-  borderRadius: '12px',
+  margin: '4px 12px',
+  padding: '10px 12px',
+  borderRadius: '8px',
   '&.Mui-selected': {
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: '#6366F1',
     color: '#fff',
     '&:hover': {
-      backgroundColor: theme.palette.primary.dark,
+      backgroundColor: '#4F46E5',
     },
     '& .MuiListItemIcon-root': {
       color: '#fff',
     },
   },
   '&:hover': {
-    backgroundColor: theme.palette.action.hover,
+    backgroundColor: '#F1F5F9',
   },
 }));
 
-const menuItems = [
+interface NavItem {
+  text: string;
+  icon: JSX.Element;
+  path: string;
+}
+
+const menuItems: NavItem[] = [
   { text: 'Dashboard', icon: <DashboardIcon />, path: '/' },
   { text: 'Studios', icon: <CameraIcon />, path: '/studios' },
   { text: 'Bookings', icon: <EventIcon />, path: '/bookings' },
@@ -72,12 +79,11 @@ const menuItems = [
   { text: 'Settings', icon: <SettingsIcon />, path: '/settings' },
 ];
 
-const Sidebar = ({ open, onToggle }: SidebarProps) => {
+const Sidebar = ({ open, onToggle, isMobile }: SidebarProps) => {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const location = useLocation();
 
-  const drawer = (
+  const sidebarContent = (
     <Box sx={{ overflow: 'auto', height: '100%', py: 2 }}>
       <Box sx={{ 
         px: { xs: 1, sm: 2 }, 
@@ -99,14 +105,14 @@ const Sidebar = ({ open, onToggle }: SidebarProps) => {
             <Box sx={{ 
               fontSize: '1.25rem', 
               fontWeight: 600,
-              color: theme.palette.primary.main,
+              color: '#6366F1',
               lineHeight: 1.2,
             }}>
               Studio
             </Box>
             <Box sx={{ 
               fontSize: '0.875rem',
-              color: theme.palette.text.secondary,
+              color: '#64748B',
             }}>
               Manager
             </Box>
@@ -115,52 +121,84 @@ const Sidebar = ({ open, onToggle }: SidebarProps) => {
       </Box>
 
       <List>
-        {menuItems.map((item) => (
-          <ListItem key={item.text} disablePadding>
-            <StyledListItemButton
-              component={Link}
-              to={item.path}
-              selected={location.pathname === item.path}
-              sx={{
-                minHeight: 48,
-                justifyContent: open ? 'initial' : 'center',
-                px: 2.5,
-              }}
-            >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 2 : 'auto',
-                  justifyContent: 'center',
-                }}
-              >
-                {item.icon}
-              </ListItemIcon>
-              {open && (
-                <ListItemText 
-                  primary={item.text}
+        {menuItems.map((item) => {
+          const StyledLink = styled(Link)({
+            textDecoration: 'none',
+            color: 'inherit',
+            display: 'flex',
+            width: '100%',
+          });
+
+          return (
+            <ListItem key={item.text} disablePadding>
+              <StyledLink to={item.path}>
+                <StyledListItemButton
+                  selected={location.pathname === item.path}
                   sx={{
-                    opacity: 1,
-                    '& .MuiListItemText-primary': {
-                      fontSize: '0.875rem',
-                      fontWeight: location.pathname === item.path ? 600 : 400,
-                    },
+                    minHeight: 44,
+                    justifyContent: open ? 'initial' : 'center',
+                    px: 2.5,
+                    width: '100%',
                   }}
-                />
-              )}
-            </StyledListItemButton>
-          </ListItem>
-        ))}
+                >
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 2 : 'auto',
+                      justifyContent: 'center',
+                      color: location.pathname === item.path ? '#fff' : '#64748B',
+                    }}
+                  >
+                    {item.icon}
+                  </ListItemIcon>
+                  {open && (
+                    <ListItemText 
+                      primary={item.text}
+                      sx={{
+                        opacity: 1,
+                        '& .MuiListItemText-primary': {
+                          fontSize: '0.875rem',
+                          fontWeight: location.pathname === item.path ? 600 : 400,
+                          color: location.pathname === item.path ? '#fff' : '#64748B',
+                        },
+                      }}
+                    />
+                  )}
+                </StyledListItemButton>
+              </StyledLink>
+            </ListItem>
+          );
+        })}
       </List>
     </Box>
   );
+
+  if (isMobile) {
+    return (
+      <SwipeableDrawer
+        anchor="left"
+        open={open}
+        onClose={onToggle}
+        onOpen={onToggle}
+        sx={{
+          '& .MuiDrawer-paper': {
+            width: drawerWidth,
+            backgroundColor: '#fff',
+            boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
+          },
+        }}
+      >
+        {sidebarContent}
+      </SwipeableDrawer>
+    );
+  }
 
   return (
     <StyledDrawer
       variant="permanent"
       className={open ? '' : 'collapsed'}
     >
-      {drawer}
+      {sidebarContent}
     </StyledDrawer>
   );
 };

@@ -9,10 +9,13 @@ import {
   Avatar,
   Badge,
   useMediaQuery,
+  Button,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import SearchIcon from '@mui/icons-material/Search';
+import LanguageIcon from '@mui/icons-material/Language';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { styled } from '@mui/material/styles';
 
 interface NavbarProps {
@@ -20,22 +23,20 @@ interface NavbarProps {
 }
 
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
-  backgroundColor: 'transparent',
-  color: theme.palette.text.primary,
-  boxShadow: 'none',
-  borderBottom: `1px solid ${theme.palette.divider}`,
-  backdropFilter: 'blur(6px)',
-  WebkitBackdropFilter: 'blur(6px)',
+  backgroundColor: '#fff',
+  color: '#1E293B',
+  boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
+  backdropFilter: 'blur(8px)',
+  WebkitBackdropFilter: 'blur(8px)',
   padding: theme.spacing(1, 0),
 }));
 
 const SearchWrapper = styled(Box)(({ theme }) => ({
   position: 'relative',
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: theme.palette.background.paper,
-  border: `1px solid ${theme.palette.divider}`,
+  borderRadius: '8px',
+  backgroundColor: '#F1F5F9',
   '&:hover': {
-    backgroundColor: theme.palette.action.hover,
+    backgroundColor: '#F8FAFC',
   },
   marginRight: theme.spacing(2),
   marginLeft: 0,
@@ -54,11 +55,11 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  color: theme.palette.text.secondary,
+  color: '#64748B',
 }));
 
 const StyledInput = styled('input')(({ theme }) => ({
-  color: theme.palette.text.primary,
+  color: '#1E293B',
   padding: theme.spacing(1, 1, 1, 0),
   paddingLeft: `calc(1em + ${theme.spacing(4)})`,
   transition: theme.transitions.create('width'),
@@ -67,8 +68,24 @@ const StyledInput = styled('input')(({ theme }) => ({
   border: 'none',
   outline: 'none',
   backgroundColor: 'transparent',
+  fontSize: '0.875rem',
+  '&::placeholder': {
+    color: '#64748B',
+    opacity: 1,
+  },
   [theme.breakpoints.up('md')]: {
     width: '40ch',
+  },
+}));
+
+const LanguageButton = styled(Button)(({ theme }) => ({
+  textTransform: 'none',
+  color: '#64748B',
+  backgroundColor: '#F1F5F9',
+  borderRadius: '8px',
+  padding: '6px 12px',
+  '&:hover': {
+    backgroundColor: '#F8FAFC',
   },
 }));
 
@@ -81,12 +98,14 @@ const Navbar = ({ onMenuClick }: NavbarProps) => {
       <Toolbar>
         <IconButton
           edge="start"
-          color="inherit"
           aria-label="menu"
           onClick={onMenuClick}
           sx={{
             mr: 2,
-            color: theme.palette.text.secondary,
+            color: '#64748B',
+            '&:hover': {
+              backgroundColor: '#F1F5F9',
+            },
           }}
         >
           <MenuIcon />
@@ -107,21 +126,71 @@ const Navbar = ({ onMenuClick }: NavbarProps) => {
         <Box sx={{ flexGrow: 1 }} />
 
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-          <IconButton color="inherit">
+          {!isMobile && (
+            <LanguageButton
+              startIcon={<LanguageIcon />}
+              endIcon={<KeyboardArrowDownIcon />}
+            >
+              English
+            </LanguageButton>
+          )}
+          
+          <IconButton
+            sx={{
+              color: '#64748B',
+              backgroundColor: '#F1F5F9',
+              '&:hover': {
+                backgroundColor: '#F8FAFC',
+              },
+            }}
+          >
             <Badge badgeContent={4} color="error">
               <NotificationsIcon />
             </Badge>
           </IconButton>
-          <Avatar
-            sx={{
-              width: 40,
-              height: 40,
-              cursor: 'pointer',
-              bgcolor: theme.palette.primary.main,
-            }}
-          >
-            A
-          </Avatar>
+
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Avatar
+              sx={{
+                width: 40,
+                height: 40,
+                bgcolor: '#6366F1',
+              }}
+            >
+              A
+            </Avatar>
+            {!isMobile && (
+              <>
+                <Box>
+                  <Typography
+                    variant="subtitle2"
+                    sx={{
+                      color: '#1E293B',
+                      fontWeight: 600,
+                    }}
+                  >
+                    Admin User
+                  </Typography>
+                  <Typography
+                    variant="caption"
+                    sx={{
+                      color: '#64748B',
+                    }}
+                  >
+                    Administrator
+                  </Typography>
+                </Box>
+                <IconButton
+                  size="small"
+                  sx={{
+                    color: '#64748B',
+                  }}
+                >
+                  <KeyboardArrowDownIcon />
+                </IconButton>
+              </>
+            )}
+          </Box>
         </Box>
       </Toolbar>
     </StyledAppBar>
