@@ -1,116 +1,159 @@
 import React from 'react';
-import { Paper, Box, Typography } from '@mui/material';
-import ReactEcharts from 'echarts-for-react';
+import { Box, Card, CardContent, Typography, useTheme } from '@mui/material';
+import { Line } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler
+} from 'chart.js';
 
-const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
-const data = {
-  loyalCustomers: [320, 332, 301, 334, 390, 330, 320, 330, 320, 302, 301, 334],
-  newCustomers: [220, 182, 191, 134, 290, 330, 310, 220, 182, 191, 234, 290],
-  uniqueCustomers: [150, 232, 201, 154, 190, 330, 410, 150, 232, 201, 154, 190],
-};
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler
+);
 
 const VisitorInsights = () => {
-  const option = {
-    tooltip: {
-      trigger: 'axis',
-      axisPointer: {
-        type: 'shadow',
-      },
-    },
-    grid: {
-      left: '3%',
-      right: '4%',
-      bottom: '3%',
-      top: '4%',
-      containLabel: true,
-    },
-    xAxis: {
-      type: 'category',
-      data: months,
-      boundaryGap: false,
-      axisLine: {
-        lineStyle: {
-          color: '#E2E8F0',
-        },
-      },
-      axisLabel: {
-        color: '#64748B',
-      },
-    },
-    yAxis: {
-      type: 'value',
-      axisLine: {
-        show: false,
-      },
-      splitLine: {
-        lineStyle: {
-          color: '#E2E8F0',
-        },
-      },
-      axisLabel: {
-        color: '#64748B',
-      },
-    },
-    series: [
+  const theme = useTheme();
+
+  const data = {
+    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+    datasets: [
       {
-        name: 'Loyal Customers',
-        type: 'line',
-        smooth: true,
-        data: data.loyalCustomers,
-        symbolSize: 6,
-        itemStyle: {
-          color: '#8B5CF6',
-        },
-        lineStyle: {
-          width: 2,
-        },
-        areaStyle: {
-          opacity: 0.1,
-        },
+        label: 'Loyal Customers',
+        data: [400, 380, 350, 450, 380, 350, 400, 380, 350, 450, 380, 350],
+        borderColor: theme.palette.primary.main,
+        backgroundColor: `${theme.palette.primary.main}20`,
+        tension: 0.4,
+        fill: true,
+        pointRadius: 0,
+        borderWidth: 2,
       },
       {
-        name: 'New Customers',
-        type: 'line',
-        smooth: true,
-        data: data.newCustomers,
-        symbolSize: 6,
-        itemStyle: {
-          color: '#EF4444',
-        },
-        lineStyle: {
-          width: 2,
-        },
+        label: 'New Customers',
+        data: [300, 350, 300, 350, 300, 350, 300, 350, 300, 350, 300, 350],
+        borderColor: theme.palette.secondary.main,
+        backgroundColor: `${theme.palette.secondary.main}20`,
+        tension: 0.4,
+        fill: true,
+        pointRadius: 0,
+        borderWidth: 2,
       },
       {
-        name: 'Unique Customers',
-        type: 'line',
-        smooth: true,
-        data: data.uniqueCustomers,
-        symbolSize: 6,
-        itemStyle: {
-          color: '#22C55E',
-        },
-        lineStyle: {
-          width: 2,
-        },
+        label: 'Unique Customers',
+        data: [200, 250, 200, 250, 200, 250, 200, 250, 200, 250, 200, 250],
+        borderColor: '#F59E0B',
+        backgroundColor: '#F59E0B20',
+        tension: 0.4,
+        fill: true,
+        pointRadius: 0,
+        borderWidth: 2,
       },
     ],
   };
 
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: 'top' as const,
+        align: 'end' as const,
+        labels: {
+          boxWidth: 10,
+          usePointStyle: true,
+          pointStyle: 'circle',
+          padding: 20,
+          font: {
+            family: theme.typography.fontFamily,
+            size: 12,
+          },
+        },
+      },
+      tooltip: {
+        backgroundColor: theme.palette.background.paper,
+        titleColor: theme.palette.text.primary,
+        bodyColor: theme.palette.text.secondary,
+        borderColor: theme.palette.divider,
+        borderWidth: 1,
+        padding: 12,
+        cornerRadius: 8,
+        displayColors: false,
+        titleFont: {
+          family: theme.typography.fontFamily,
+          size: 14,
+          weight: 600,
+        },
+        bodyFont: {
+          family: theme.typography.fontFamily,
+          size: 13,
+        },
+      },
+    },
+    scales: {
+      x: {
+        grid: {
+          display: false,
+        },
+        ticks: {
+          font: {
+            family: theme.typography.fontFamily,
+            size: 12,
+          },
+          color: theme.palette.text.secondary,
+        },
+      },
+      y: {
+        min: 0,
+        max: 500,
+        ticks: {
+          stepSize: 100,
+          font: {
+            family: theme.typography.fontFamily,
+            size: 12,
+          },
+          color: theme.palette.text.secondary,
+        },
+        grid: {
+          color: theme.palette.divider,
+          borderDash: [5, 5],
+        },
+      },
+    },
+  };
+
   return (
-    <Paper sx={{ p: 3 }}>
-      <Box sx={{ mb: 2 }}>
-        <Typography variant="h4" gutterBottom>
-          Visitor Insights
-        </Typography>
-      </Box>
-      <ReactEcharts
-        option={option}
-        style={{ height: '400px', width: '100%' }}
-      />
-    </Paper>
+    <Card sx={{ 
+      height: '100%',
+      borderRadius: '1rem',
+      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+    }}>
+      <CardContent>
+        <Box sx={{ mb: 3 }}>
+          <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
+            Visitor Insights
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Monthly visitor statistics
+          </Typography>
+        </Box>
+        <Box sx={{ height: 350, width: '100%' }}>
+          <Line data={data} options={options} />
+        </Box>
+      </CardContent>
+    </Card>
   );
 };
 
-export default VisitorInsights; 
+export default VisitorInsights;

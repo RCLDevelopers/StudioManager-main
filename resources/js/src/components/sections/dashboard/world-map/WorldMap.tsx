@@ -1,96 +1,132 @@
 import React from 'react';
-import { Paper, Box, Typography } from '@mui/material';
-import ReactEcharts from 'echarts-for-react';
+import { Box, Card, CardContent, Typography, useTheme } from '@mui/material';
+import { Bar } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
 
-const data = {
-  volume: 1128,
-  services: 1719,
-  regions: [
-    { name: 'Brazil', value: 300 },
-    { name: 'United States', value: 500 },
-    { name: 'India', value: 400 },
-    { name: 'Indonesia', value: 350 },
-  ],
-};
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const WorldMap = () => {
-  const option = {
-    backgroundColor: '#fff',
-    tooltip: {
-      trigger: 'axis',
-      axisPointer: {
-        type: 'shadow'
-      }
-    },
-    grid: {
-      left: '3%',
-      right: '4%',
-      bottom: '3%',
-      containLabel: true
-    },
-    xAxis: {
-      type: 'category',
-      data: data.regions.map(region => region.name),
-      axisLabel: {
-        color: '#64748B'
-      }
-    },
-    yAxis: {
-      type: 'value',
-      axisLabel: {
-        color: '#64748B'
-      }
-    },
-    series: [
+  const theme = useTheme();
+
+  const data = {
+    labels: ['USA', 'UK', 'Canada', 'Australia', 'Germany'],
+    datasets: [
       {
-        name: 'Visitors',
-        type: 'bar',
-        data: data.regions.map(region => ({
-          value: region.value,
-          itemStyle: {
-            color: '#3B82F6'
-          }
-        })),
-        emphasis: {
-          itemStyle: {
-            color: '#2563EB'
-          }
+        label: 'Revenue',
+        data: [65000, 45000, 35000, 28000, 25000],
+        backgroundColor: [
+          theme.palette.primary.main,
+          theme.palette.secondary.main,
+          theme.palette.success.main,
+          theme.palette.warning.main,
+          theme.palette.error.main,
+        ],
+        borderRadius: 8,
+        barThickness: 24,
+      },
+    ],
+  };
+
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: false,
+      },
+      tooltip: {
+        backgroundColor: theme.palette.background.paper,
+        titleColor: theme.palette.text.primary,
+        bodyColor: theme.palette.text.secondary,
+        borderColor: theme.palette.divider,
+        borderWidth: 1,
+        padding: 12,
+        cornerRadius: 8,
+        displayColors: false,
+        titleFont: {
+          family: theme.typography.fontFamily,
+          size: 14,
+          weight: 600,
         },
-        barWidth: '60%'
-      }
-    ]
+        bodyFont: {
+          family: theme.typography.fontFamily,
+          size: 13,
+        },
+        callbacks: {
+          label: function(context: any) {
+            return `$${context.parsed.y.toLocaleString()}`;
+          }
+        }
+      },
+    },
+    scales: {
+      x: {
+        grid: {
+          display: false,
+        },
+        ticks: {
+          font: {
+            family: theme.typography.fontFamily,
+            size: 12,
+          },
+          color: theme.palette.text.secondary,
+        },
+      },
+      y: {
+        grid: {
+          color: theme.palette.divider,
+          borderDash: [5, 5],
+        },
+        ticks: {
+          font: {
+            family: theme.typography.fontFamily,
+            size: 12,
+          },
+          color: theme.palette.text.secondary,
+          callback: function(value: any) {
+            return `$${(value / 1000).toFixed(0)}k`;
+          },
+        },
+      },
+    },
   };
 
   return (
-    <Paper sx={{ p: 3 }}>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-        <Typography variant="h4">Visitor Insights</Typography>
-        <Box sx={{ display: 'flex', gap: 4 }}>
-          <Box>
-            <Typography variant="h4" color="primary">
-              {data.volume.toLocaleString()}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Volume
-            </Typography>
-          </Box>
-          <Box>
-            <Typography variant="h4" color="success.main">
-              {data.services.toLocaleString()}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Services
-            </Typography>
-          </Box>
+    <Card sx={{ 
+      height: '100%',
+      borderRadius: '1rem',
+      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+    }}>
+      <CardContent>
+        <Box sx={{ mb: 3 }}>
+          <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
+            Revenue by Region
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Top performing regions
+          </Typography>
         </Box>
-      </Box>
-      <ReactEcharts
-        option={option}
-        style={{ height: '400px', width: '100%' }}
-        opts={{ renderer: 'canvas' }}
-      />
-    </Paper>
+        <Box sx={{ height: 350, width: '100%' }}>
+          <Bar data={data} options={options} />
+        </Box>
+      </CardContent>
+    </Card>
   );
 };
 
-export default WorldMap; 
+export default WorldMap;

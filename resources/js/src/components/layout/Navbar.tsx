@@ -1,33 +1,45 @@
 import React from 'react';
 import {
   AppBar,
+  Box,
+  IconButton,
   Toolbar,
   Typography,
-  InputBase,
-  IconButton,
-  Box,
+  useTheme,
   Avatar,
   Badge,
-  Select,
-  MenuItem,
+  useMediaQuery,
 } from '@mui/material';
-import { styled, alpha } from '@mui/material/styles';
-import SearchIcon from '@mui/icons-material/Search';
+import MenuIcon from '@mui/icons-material/Menu';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import FlagIcon from '@mui/icons-material/Flag';
+import SearchIcon from '@mui/icons-material/Search';
+import { styled } from '@mui/material/styles';
 
-const Search = styled('div')(({ theme }) => ({
+interface NavbarProps {
+  onMenuClick: () => void;
+}
+
+const StyledAppBar = styled(AppBar)(({ theme }) => ({
+  backgroundColor: 'transparent',
+  color: theme.palette.text.primary,
+  boxShadow: 'none',
+  borderBottom: `1px solid ${theme.palette.divider}`,
+  backdropFilter: 'blur(6px)',
+  WebkitBackdropFilter: 'blur(6px)',
+  padding: theme.spacing(1, 0),
+}));
+
+const SearchWrapper = styled(Box)(({ theme }) => ({
   position: 'relative',
-  borderRadius: 100,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: theme.palette.background.paper,
+  border: `1px solid ${theme.palette.divider}`,
   '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
+    backgroundColor: theme.palette.action.hover,
   },
   marginRight: theme.spacing(2),
   marginLeft: 0,
   width: '100%',
-  maxWidth: '400px',
   [theme.breakpoints.up('sm')]: {
     marginLeft: theme.spacing(3),
     width: 'auto',
@@ -45,84 +57,75 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
+const StyledInput = styled('input')(({ theme }) => ({
   color: theme.palette.text.primary,
+  padding: theme.spacing(1, 1, 1, 0),
+  paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+  transition: theme.transitions.create('width'),
   width: '100%',
-  '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 1, 1, 0),
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    backgroundColor: '#F1F5F9',
-    borderRadius: 100,
+  height: '40px',
+  border: 'none',
+  outline: 'none',
+  backgroundColor: 'transparent',
+  [theme.breakpoints.up('md')]: {
+    width: '40ch',
   },
 }));
 
-const StyledSelect = styled(Select)(({ theme }) => ({
-  '& .MuiSelect-select': {
-    display: 'flex',
-    alignItems: 'center',
-    gap: theme.spacing(1),
-    paddingTop: 6,
-    paddingBottom: 6,
-  },
-  '& .MuiOutlinedInput-notchedOutline': {
-    border: 'none',
-  },
-}));
+const Navbar = ({ onMenuClick }: NavbarProps) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-const Navbar = () => {
   return (
-    <AppBar position="static" color="transparent" elevation={0}>
+    <StyledAppBar position="sticky">
       <Toolbar>
-        <Typography variant="h1" noWrap component="div" sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-          Dashboard
-        </Typography>
-        <Search>
-          <SearchIconWrapper>
-            <SearchIcon />
-          </SearchIconWrapper>
-          <StyledInputBase
-            placeholder="Search here..."
-            inputProps={{ 'aria-label': 'search' }}
-          />
-        </Search>
+        <IconButton
+          edge="start"
+          color="inherit"
+          aria-label="menu"
+          onClick={onMenuClick}
+          sx={{
+            mr: 2,
+            color: theme.palette.text.secondary,
+          }}
+        >
+          <MenuIcon />
+        </IconButton>
+
+        {!isMobile && (
+          <SearchWrapper>
+            <SearchIconWrapper>
+              <SearchIcon />
+            </SearchIconWrapper>
+            <StyledInput
+              placeholder="Search..."
+              aria-label="search"
+            />
+          </SearchWrapper>
+        )}
+
         <Box sx={{ flexGrow: 1 }} />
+
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-          <StyledSelect
-            value="en"
-            IconComponent={KeyboardArrowDownIcon}
-          >
-            <MenuItem value="en">
-              <FlagIcon sx={{ color: '#3B82F6' }} />
-              <Typography>Eng (US)</Typography>
-            </MenuItem>
-          </StyledSelect>
-          <IconButton size="large" color="inherit">
-            <Badge color="error" variant="dot">
+          <IconButton color="inherit">
+            <Badge badgeContent={4} color="error">
               <NotificationsIcon />
             </Badge>
           </IconButton>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <Avatar
-              alt="User Avatar"
-              src="/path-to-avatar.jpg"
-              sx={{ width: 40, height: 40 }}
-            />
-            <Box>
-              <Typography variant="subtitle1">Musfiq</Typography>
-              <Typography variant="body2" color="text.secondary">
-                Admin
-              </Typography>
-            </Box>
-            <IconButton size="small">
-              <KeyboardArrowDownIcon />
-            </IconButton>
-          </Box>
+          <Avatar
+            sx={{
+              width: 40,
+              height: 40,
+              cursor: 'pointer',
+              bgcolor: theme.palette.primary.main,
+            }}
+          >
+            A
+          </Avatar>
         </Box>
       </Toolbar>
-    </AppBar>
+    </StyledAppBar>
   );
 };
 
-export default Navbar; 
+export default Navbar;

@@ -1,151 +1,166 @@
-import React, { useState } from 'react';
-import {
-  Box,
-  Drawer,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Typography,
-  ListItemButton,
-  Collapse,
-  IconButton,
-} from '@mui/material';
-import { styled, useTheme, alpha } from '@mui/material/styles';
+import React from 'react';
+import { Box, Drawer, List, ListItem, ListItemIcon, ListItemText, ListItemButton, useTheme, useMediaQuery } from '@mui/material';
+import { Link, useLocation } from 'react-router-dom';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import StudioIcon from '@mui/icons-material/Camera';
-import BookingsIcon from '@mui/icons-material/CalendarMonth';
-import PaymentsIcon from '@mui/icons-material/Payments';
-import EquipmentIcon from '@mui/icons-material/PhotoCamera';
-import ReportsIcon from '@mui/icons-material/Assessment';
+import CameraIcon from '@mui/icons-material/Camera';
+import EventIcon from '@mui/icons-material/Event';
+import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
+import PaymentIcon from '@mui/icons-material/Payment';
+import AssessmentIcon from '@mui/icons-material/Assessment';
 import SettingsIcon from '@mui/icons-material/Settings';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import MenuIcon from '@mui/icons-material/Menu';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { styled } from '@mui/material/styles';
 
-const DRAWER_WIDTH = 260;
+interface SidebarProps {
+  open: boolean;
+  onToggle: () => void;
+}
+
+const drawerWidth = 240;
+const collapsedWidth = 72;
 
 const StyledDrawer = styled(Drawer)(({ theme }) => ({
-  width: DRAWER_WIDTH,
+  width: drawerWidth,
   flexShrink: 0,
+  whiteSpace: 'nowrap',
   '& .MuiDrawer-paper': {
-    width: DRAWER_WIDTH,
+    width: drawerWidth,
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
     boxSizing: 'border-box',
     border: 'none',
-    backgroundColor: theme.palette.background.paper,
-    boxShadow: 'none',
-    borderRight: `1px solid ${theme.palette.divider}`,
+    backgroundColor: '#F8FAFC',
+    overflowX: 'hidden',
+    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+  },
+  '&.collapsed .MuiDrawer-paper': {
+    width: collapsedWidth,
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
   },
 }));
 
-const Logo = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  padding: theme.spacing(3),
-  gap: theme.spacing(1),
-  '& img': {
-    height: 32,
+const StyledListItemButton = styled(ListItemButton)(({ theme }) => ({
+  margin: '4px 8px',
+  padding: '10px 16px',
+  borderRadius: '12px',
+  '&.Mui-selected': {
+    backgroundColor: theme.palette.primary.main,
+    color: '#fff',
+    '&:hover': {
+      backgroundColor: theme.palette.primary.dark,
+    },
+    '& .MuiListItemIcon-root': {
+      color: '#fff',
+    },
   },
-  '& .logo-text': {
-    fontSize: '1.25rem',
-    fontWeight: 600,
-    color: theme.palette.primary.main,
-  }
-}));
-
-const StyledListItem = styled(ListItemButton, {
-  shouldForwardProp: (prop) => prop !== 'active',
-})<{ active?: boolean }>(({ theme, active }) => ({
-  borderRadius: '0.5rem',
-  marginBottom: '4px',
-  padding: '10px 12px',
-  margin: '0 8px',
-  color: active ? theme.palette.primary.main : theme.palette.text.secondary,
-  backgroundColor: active ? alpha(theme.palette.primary.main, 0.08) : 'transparent',
   '&:hover': {
-    backgroundColor: active 
-      ? alpha(theme.palette.primary.main, 0.12)
-      : alpha(theme.palette.primary.main, 0.04),
-  },
-  '& .MuiListItemIcon-root': {
-    minWidth: 40,
-    color: 'inherit',
-  },
-  '& .MuiListItemText-primary': {
-    fontSize: '0.875rem',
-    fontWeight: active ? 600 : 500,
+    backgroundColor: theme.palette.action.hover,
   },
 }));
 
 const menuItems = [
   { text: 'Dashboard', icon: <DashboardIcon />, path: '/' },
-  { text: 'Studios', icon: <StudioIcon />, path: '/studios' },
-  { text: 'Bookings', icon: <BookingsIcon />, path: '/bookings' },
-  { text: 'Equipment', icon: <EquipmentIcon />, path: '/equipment' },
-  { text: 'Payments', icon: <PaymentsIcon />, path: '/payments' },
-  { text: 'Reports', icon: <ReportsIcon />, path: '/reports' },
+  { text: 'Studios', icon: <CameraIcon />, path: '/studios' },
+  { text: 'Bookings', icon: <EventIcon />, path: '/bookings' },
+  { text: 'Equipment', icon: <PhotoCameraIcon />, path: '/equipment' },
+  { text: 'Payments', icon: <PaymentIcon />, path: '/payments' },
+  { text: 'Reports', icon: <AssessmentIcon />, path: '/reports' },
   { text: 'Settings', icon: <SettingsIcon />, path: '/settings' },
 ];
 
-const Sidebar = () => {
+const Sidebar = ({ open, onToggle }: SidebarProps) => {
   const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const location = useLocation();
-  const navigate = useNavigate();
-  const [open, setOpen] = useState(true);
 
-  const handleDrawerToggle = () => {
-    setOpen(!open);
-  };
+  const drawer = (
+    <Box sx={{ overflow: 'auto', height: '100%', py: 2 }}>
+      <Box sx={{ 
+        px: { xs: 1, sm: 2 }, 
+        mb: 4, 
+        display: 'flex', 
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}>
+        <img 
+          src="/logo.png" 
+          alt="Logo" 
+          style={{ 
+            height: '40px',
+            width: 'auto',
+          }} 
+        />
+        {open && (
+          <Box sx={{ ml: 2, display: 'flex', flexDirection: 'column' }}>
+            <Box sx={{ 
+              fontSize: '1.25rem', 
+              fontWeight: 600,
+              color: theme.palette.primary.main,
+              lineHeight: 1.2,
+            }}>
+              Studio
+            </Box>
+            <Box sx={{ 
+              fontSize: '0.875rem',
+              color: theme.palette.text.secondary,
+            }}>
+              Manager
+            </Box>
+          </Box>
+        )}
+      </Box>
 
-  return (
-    <StyledDrawer
-      variant="permanent"
-      open={open}
-      sx={{
-        '& .MuiDrawer-paper': {
-          width: open ? DRAWER_WIDTH : theme.spacing(9),
-          overflowX: 'hidden',
-          transition: theme.transitions.create('width', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.enteringScreen,
-          }),
-        },
-      }}
-    >
-      <Logo>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-          <img src="/logo.svg" alt="Logo" style={{ height: 32 }} />
-          {open && (
-            <Typography variant="h6" className="logo-text" sx={{ fontWeight: 600, color: theme.palette.primary.main }}>
-              Studio Manager
-            </Typography>
-          )}
-        </Box>
-        <IconButton onClick={handleDrawerToggle}>
-          {open ? <ChevronLeftIcon /> : <MenuIcon />}
-        </IconButton>
-      </Logo>
-
-      <List sx={{ px: 1, pt: 2 }}>
+      <List>
         {menuItems.map((item) => (
           <ListItem key={item.text} disablePadding>
-            <StyledListItem
-              active={location.pathname === item.path}
-              onClick={() => navigate(item.path)}
+            <StyledListItemButton
+              component={Link}
+              to={item.path}
+              selected={location.pathname === item.path}
+              sx={{
+                minHeight: 48,
+                justifyContent: open ? 'initial' : 'center',
+                px: 2.5,
+              }}
             >
               <ListItemIcon
                 sx={{
-                  minWidth: 40,
-                  color: 'inherit',
+                  minWidth: 0,
+                  mr: open ? 2 : 'auto',
+                  justifyContent: 'center',
                 }}
               >
                 {item.icon}
               </ListItemIcon>
-              {open && <ListItemText primary={item.text} />}
-            </StyledListItem>
+              {open && (
+                <ListItemText 
+                  primary={item.text}
+                  sx={{
+                    opacity: 1,
+                    '& .MuiListItemText-primary': {
+                      fontSize: '0.875rem',
+                      fontWeight: location.pathname === item.path ? 600 : 400,
+                    },
+                  }}
+                />
+              )}
+            </StyledListItemButton>
           </ListItem>
         ))}
       </List>
+    </Box>
+  );
+
+  return (
+    <StyledDrawer
+      variant="permanent"
+      className={open ? '' : 'collapsed'}
+    >
+      {drawer}
     </StyledDrawer>
   );
 };

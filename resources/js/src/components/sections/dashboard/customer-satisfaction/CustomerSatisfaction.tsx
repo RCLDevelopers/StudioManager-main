@@ -1,86 +1,126 @@
-import { Divider, Paper, Stack, Typography } from '@mui/material';
-import { useMemo, useRef, useState } from 'react';
-import EChartsReactCore from 'echarts-for-react/lib/core';
-import { customerSatisfaction } from '@/data/customer-satisfaction';
-import { currencyFormat, getTotal } from '@/helpers/utils';
-import Pin from '@/components/icons/Pin';
-import LegendToggleButton from '@/components/common/LegendToggleButton';
-import CustomerSatisfactionChart from './CustomerSatisfactionChart';
+import React from 'react';
+import { Box, Card, CardContent, Typography, useTheme } from '@mui/material';
+import { Doughnut } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  ArcElement,
+  Tooltip,
+  Legend
+} from 'chart.js';
+
+ChartJS.register(
+  ArcElement,
+  Tooltip,
+  Legend
+);
 
 const CustomerSatisfaction = () => {
-  const chartRef = useRef<EChartsReactCore | null>(null);
-  const [legend, setLegend] = useState({
-    'Last Month': false,
-    'This Month': false,
-  });
+  const theme = useTheme();
 
-  const totalLastMonthSatisfaction = useMemo(
-    () => getTotal(customerSatisfaction.lastMonth),
-    [customerSatisfaction.lastMonth],
-  );
-  const totalThisMonthSatisfaction = useMemo(
-    () => getTotal(customerSatisfaction.thisMonth),
-    [customerSatisfaction.thisMonth],
-  );
+  const data = {
+    labels: ['Very Satisfied', 'Satisfied', 'Neutral', 'Unsatisfied'],
+    datasets: [
+      {
+        data: [45, 25, 20, 10],
+        backgroundColor: [
+          theme.palette.success.main,
+          theme.palette.primary.main,
+          theme.palette.warning.main,
+          theme.palette.error.main,
+        ],
+        borderWidth: 0,
+        spacing: 2,
+      },
+    ],
+  };
 
-  const handleLegendToggle = (name: string | number) => {
-    if (typeof name === 'string' && (name === 'Last Month' || name === 'This Month')) {
-      setLegend((prev) => ({
-        ...prev,
-        [name]: !prev[name],
-      }));
-    }
-
-    if (chartRef.current) {
-      const instance = chartRef.current.getEchartsInstance();
-      instance.dispatchAction({
-        type: 'legendToggleSelect',
-        name: name,
-      });
-    }
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    cutout: '75%',
+    plugins: {
+      legend: {
+        position: 'bottom' as const,
+        labels: {
+          boxWidth: 10,
+          usePointStyle: true,
+          pointStyle: 'circle',
+          padding: 20,
+          font: {
+            family: theme.typography.fontFamily,
+            size: 12,
+          },
+        },
+      },
+      tooltip: {
+        backgroundColor: theme.palette.background.paper,
+        titleColor: theme.palette.text.primary,
+        bodyColor: theme.palette.text.secondary,
+        borderColor: theme.palette.divider,
+        borderWidth: 1,
+        padding: 12,
+        cornerRadius: 8,
+        displayColors: false,
+        titleFont: {
+          family: theme.typography.fontFamily,
+          size: 14,
+          weight: 600,
+        },
+        bodyFont: {
+          family: theme.typography.fontFamily,
+          size: 13,
+        },
+        callbacks: {
+          label: function(context: any) {
+            return `${context.parsed}%`;
+          }
+        }
+      },
+    },
   };
 
   return (
-    <Paper sx={{ py: 3, px: 1.5 }}>
-      <Typography variant="h4" color="primary.dark" mb={3}>
-        Customer Satisfaction
-      </Typography>
-
-      <CustomerSatisfactionChart
-        chartRef={chartRef}
-        data={{
-          lastMonth: customerSatisfaction.lastMonth,
-          thisMonth: customerSatisfaction.thisMonth,
-        }}
-        style={{ height: 182 }}
-      />
-
-      <Stack
-        direction="row"
-        justifyContent="center"
-        divider={<Divider orientation="vertical" flexItem sx={{ height: 24 }} />}
-        sx={{ borderTop: 1, borderColor: 'grey.A100', pt: 2 }}
-        gap={2}
-      >
-        <LegendToggleButton
-          name="Last Month"
-          svgIcon={Pin}
-          color="info.main"
-          value={currencyFormat(totalLastMonthSatisfaction)}
-          legend={legend}
-          onHandleLegendToggle={handleLegendToggle}
-        />
-        <LegendToggleButton
-          name="This Month"
-          svgIcon={Pin}
-          color="success.dark"
-          value={currencyFormat(totalThisMonthSatisfaction)}
-          legend={legend}
-          onHandleLegendToggle={handleLegendToggle}
-        />
-      </Stack>
-    </Paper>
+    <Card sx={{ 
+      height: '100%',
+      borderRadius: '1rem',
+      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+    }}>
+      <CardContent>
+        <Box sx={{ mb: 3 }}>
+          <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
+            Customer Satisfaction
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Overall customer satisfaction rate
+          </Typography>
+        </Box>
+        <Box sx={{ 
+          height: 300,
+          width: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          position: 'relative',
+        }}>
+          <Box sx={{
+            position: 'absolute',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+            <Typography variant="h3" sx={{ fontWeight: 600, color: theme.palette.primary.main }}>
+              70%
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Satisfaction Rate
+            </Typography>
+          </Box>
+          <Doughnut data={data} options={options} />
+        </Box>
+      </CardContent>
+    </Card>
   );
 };
 
-export default CustomerSatisfaction; 
+export default CustomerSatisfaction;
