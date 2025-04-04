@@ -1,22 +1,6 @@
 import React from 'react';
 import { Paper, Box, Typography } from '@mui/material';
 import ReactEcharts from 'echarts-for-react';
-import * as echarts from 'echarts/core';
-import {
-  TooltipComponent,
-  VisualMapComponent,
-  GeoComponent
-} from 'echarts/components';
-import { MapChart } from 'echarts/charts';
-import { CanvasRenderer } from 'echarts/renderers';
-
-echarts.use([
-  TooltipComponent,
-  VisualMapComponent,
-  GeoComponent,
-  MapChart,
-  CanvasRenderer
-]);
 
 const data = {
   volume: 1128,
@@ -31,37 +15,50 @@ const data = {
 
 const WorldMap = () => {
   const option = {
+    backgroundColor: '#fff',
     tooltip: {
-      trigger: 'item',
-      formatter: '{b}: {c}',
+      trigger: 'axis',
+      axisPointer: {
+        type: 'shadow'
+      }
     },
-    visualMap: {
-      min: 0,
-      max: 500,
-      text: ['High', 'Low'],
-      realtime: false,
-      calculable: true,
-      inRange: {
-        color: ['#DBEAFE', '#3B82F6'],
-      },
-      textStyle: {
-        color: '#64748B',
-      },
+    grid: {
+      left: '3%',
+      right: '4%',
+      bottom: '3%',
+      containLabel: true
+    },
+    xAxis: {
+      type: 'category',
+      data: data.regions.map(region => region.name),
+      axisLabel: {
+        color: '#64748B'
+      }
+    },
+    yAxis: {
+      type: 'value',
+      axisLabel: {
+        color: '#64748B'
+      }
     },
     series: [
       {
-        name: 'World Map',
-        type: 'map',
-        map: 'world',
-        roam: true,
+        name: 'Visitors',
+        type: 'bar',
+        data: data.regions.map(region => ({
+          value: region.value,
+          itemStyle: {
+            color: '#3B82F6'
+          }
+        })),
         emphasis: {
-          label: {
-            show: true,
-          },
+          itemStyle: {
+            color: '#2563EB'
+          }
         },
-        data: data.regions,
-      },
-    ],
+        barWidth: '60%'
+      }
+    ]
   };
 
   return (
@@ -90,6 +87,7 @@ const WorldMap = () => {
       <ReactEcharts
         option={option}
         style={{ height: '400px', width: '100%' }}
+        opts={{ renderer: 'canvas' }}
       />
     </Paper>
   );
