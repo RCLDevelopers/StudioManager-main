@@ -1,54 +1,25 @@
-import React from 'react';
-import { Box, Typography, useTheme } from '@mui/material';
-import { Bar } from 'react-chartjs-2';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from 'chart.js';
-import { getCommonHeaderStyle, getCommonChartContainerStyle } from '@/utils/chartStyles';
+import { Theme } from '@mui/material';
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
-
-const WorldMap = () => {
-  const theme = useTheme();
-
-  const data = {
-    labels: ['USA', 'UK', 'Canada', 'Australia', 'Germany'],
-    datasets: [
-      {
-        label: 'Revenue',
-        data: [65000, 45000, 35000, 28000, 25000],
-        backgroundColor: [
-          theme.palette.primary.main,
-          theme.palette.secondary.main,
-          theme.palette.success.main,
-          theme.palette.warning.main,
-          theme.palette.error.main,
-        ],
-        borderRadius: 8,
-        barThickness: 24,
-      },
-    ],
-  };
-
-  const options = {
+export const getCommonChartOptions = (theme: Theme) => {
+  return {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
       legend: {
         display: false,
+        position: 'top' as const,
+        align: 'end' as const,
+        labels: {
+          boxWidth: 10,
+          usePointStyle: true,
+          pointStyle: 'circle',
+          padding: 20,
+          font: {
+            family: theme.typography.fontFamily,
+            size: 12,
+          },
+          color: theme.palette.text.secondary,
+        },
       },
       tooltip: {
         backgroundColor: theme.palette.background.paper,
@@ -68,11 +39,6 @@ const WorldMap = () => {
           family: theme.typography.fontFamily,
           size: 13,
         },
-        callbacks: {
-          label: function(context: any) {
-            return `$${context.parsed.y.toLocaleString()}`;
-          }
-        }
       },
     },
     scales: {
@@ -81,6 +47,7 @@ const WorldMap = () => {
         grid: {
           display: true,
           color: theme.palette.divider,
+          borderDash: [5, 5],
           drawBorder: true,
           drawTicks: true,
         },
@@ -117,29 +84,59 @@ const WorldMap = () => {
           },
           color: theme.palette.text.secondary,
           padding: 8,
-          callback: function(value: any) {
-            return `$${(value / 1000).toFixed(0)}k`;
-          },
         },
       },
     },
+    layout: {
+      padding: {
+        left: 10,
+        right: 10,
+        top: 10,
+        bottom: 10
+      }
+    },
+    elements: {
+      line: {
+        tension: 0.4,
+        borderWidth: 2,
+      },
+      point: {
+        radius: 0,
+        hitRadius: 10,
+        hoverRadius: 4,
+      },
+    },
   };
-
-  return (
-    <>
-      <Box sx={getCommonHeaderStyle()}>
-        <Typography variant="h6" sx={{ fontWeight: 600, mb: 0.5 }}>
-          Revenue by Region
-        </Typography>
-        <Typography variant="caption" color="text.secondary">
-          Top performing regions
-        </Typography>
-      </Box>
-      <Box sx={getCommonChartContainerStyle()}>
-        <Bar data={data} options={options} />
-      </Box>
-    </>
-  );
 };
 
-export default WorldMap;
+export const getCommonCardStyle = (theme: Theme) => {
+  return {
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    backgroundColor: theme.palette.background.paper,
+    borderRadius: '8px',
+    boxShadow: theme.shadows[1],
+    overflow: 'hidden',
+  };
+};
+
+export const getCommonChartContainerStyle = () => {
+  return {
+    height: '100%',
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    flexGrow: 1,
+    position: 'relative',
+    minHeight: '250px',
+  };
+};
+
+export const getCommonHeaderStyle = () => {
+  return {
+    mb: 2,
+    display: 'flex',
+    flexDirection: 'column',
+  };
+};

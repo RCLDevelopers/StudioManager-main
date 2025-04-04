@@ -1,219 +1,322 @@
-import React from 'react';
-import { Box, Drawer, List, ListItem, ListItemIcon, ListItemText, ListItemButton, SwipeableDrawer, useTheme } from '@mui/material';
+import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import {
+  Box,
+  Drawer,
+  List,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Collapse,
+  Typography,
+  useTheme,
+  useMediaQuery,
+} from '@mui/material';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import CameraIcon from '@mui/icons-material/Camera';
-import EventIcon from '@mui/icons-material/Event';
-import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
-import PaymentIcon from '@mui/icons-material/Payment';
-import AssessmentIcon from '@mui/icons-material/Assessment';
+import PeopleIcon from '@mui/icons-material/People';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import BarChartIcon from '@mui/icons-material/BarChart';
+import LayersIcon from '@mui/icons-material/Layers';
 import SettingsIcon from '@mui/icons-material/Settings';
-import { styled } from '@mui/material/styles';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import EmailIcon from '@mui/icons-material/Email';
+import ChatIcon from '@mui/icons-material/Chat';
+import TaskIcon from '@mui/icons-material/Task';
+import { useThemeContext } from '@/theme/ThemeContext';
 
 interface SidebarProps {
   open: boolean;
-  onToggle: () => void;
-  isMobile: boolean;
+  onClose: () => void;
+  variant: 'permanent' | 'persistent' | 'temporary';
 }
 
-const drawerWidth = 240;
-const collapsedWidth = 72;
-
-const StyledDrawer = styled(Drawer)(({ theme }) => ({
-  width: drawerWidth,
-  flexShrink: 0,
-  whiteSpace: 'nowrap',
-  '& .MuiDrawer-paper': {
-    width: drawerWidth,
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-    boxSizing: 'border-box',
-    border: 'none',
-    backgroundColor: theme.palette.mode === 'light' ? '#fff' : theme.palette.background.paper,
-    overflowX: 'hidden',
-    boxShadow: theme.shadows[1],
+const menuItems = [
+  {
+    title: 'Dashboard',
+    path: '/',
+    icon: <DashboardIcon />,
+    children: [],
   },
-  '&.collapsed .MuiDrawer-paper': {
-    width: collapsedWidth,
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
+  {
+    title: 'Calendar',
+    path: '/calendar',
+    icon: <CalendarMonthIcon />,
+    children: [],
   },
-}));
-
-const StyledListItemButton = styled(ListItemButton)(({ theme }) => ({
-  margin: '4px 8px',
-  padding: '8px 12px',
-  borderRadius: '6px',
-  transition: 'all 0.2s ease',
-  '&.Mui-selected': {
-    backgroundColor: theme.palette.primary.main,
-    color: '#fff',
-    boxShadow: theme.palette.mode === 'light' 
-      ? '0 1px 3px 0 rgba(99, 102, 241, 0.2)'
-      : '0 1px 3px 0 rgba(0, 0, 0, 0.2)',
-    '&:hover': {
-      backgroundColor: theme.palette.primary.dark,
-    },
-    '& .MuiListItemIcon-root': {
-      color: '#fff',
-    },
+  {
+    title: 'Clients',
+    path: '/clients',
+    icon: <PeopleIcon />,
+    children: [
+      { title: 'Client List', path: '/clients' },
+      { title: 'Add Client', path: '/clients/add' },
+      { title: 'Client Groups', path: '/clients/groups' },
+    ],
   },
-  '&:hover': {
-    backgroundColor: theme.palette.mode === 'light' 
-      ? '#F1F5F9' 
-      : 'rgba(255, 255, 255, 0.05)',
+  {
+    title: 'Projects',
+    path: '/projects',
+    icon: <LayersIcon />,
+    children: [
+      { title: 'Project List', path: '/projects' },
+      { title: 'Add Project', path: '/projects/add' },
+      { title: 'Project Categories', path: '/projects/categories' },
+    ],
   },
-}));
-
-interface NavItem {
-  text: string;
-  icon: JSX.Element;
-  path: string;
-}
-
-const menuItems: NavItem[] = [
-  { text: 'Dashboard', icon: <DashboardIcon fontSize="small" />, path: '/' },
-  { text: 'Studios', icon: <CameraIcon fontSize="small" />, path: '/studios' },
-  { text: 'Bookings', icon: <EventIcon fontSize="small" />, path: '/bookings' },
-  { text: 'Equipment', icon: <PhotoCameraIcon fontSize="small" />, path: '/equipment' },
-  { text: 'Payments', icon: <PaymentIcon fontSize="small" />, path: '/payments' },
-  { text: 'Reports', icon: <AssessmentIcon fontSize="small" />, path: '/reports' },
-  { text: 'Settings', icon: <SettingsIcon fontSize="small" />, path: '/settings' },
+  {
+    title: 'Orders',
+    path: '/orders',
+    icon: <ShoppingCartIcon />,
+    children: [
+      { title: 'Order List', path: '/orders' },
+      { title: 'Add Order', path: '/orders/add' },
+      { title: 'Order Status', path: '/orders/status' },
+    ],
+  },
+  {
+    title: 'Tasks',
+    path: '/tasks',
+    icon: <TaskIcon />,
+    children: [],
+  },
+  {
+    title: 'Email',
+    path: '/email',
+    icon: <EmailIcon />,
+    children: [],
+  },
+  {
+    title: 'Chat',
+    path: '/chat',
+    icon: <ChatIcon />,
+    children: [],
+  },
+  {
+    title: 'Analytics',
+    path: '/analytics',
+    icon: <BarChartIcon />,
+    children: [],
+  },
+  {
+    title: 'Settings',
+    path: '/settings',
+    icon: <SettingsIcon />,
+    children: [],
+  },
 ];
 
-const Sidebar = ({ open, onToggle, isMobile }: SidebarProps) => {
-  const theme = useTheme();
+const Sidebar = ({ open, onClose, variant }: SidebarProps) => {
   const location = useLocation();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const { mode } = useThemeContext();
+  const isDark = mode === 'dark';
+  
+  const [openSubMenu, setOpenSubMenu] = useState<string | null>(null);
 
-  const sidebarContent = (
-    <Box sx={{ overflow: 'auto', height: '100%', py: 1.5 }}>
+  const handleSubMenuClick = (title: string) => {
+    setOpenSubMenu(openSubMenu === title ? null : title);
+  };
+
+  const isActive = (path: string) => {
+    return location.pathname === path;
+  };
+
+  const isParentActive = (item: any) => {
+    if (isActive(item.path)) return true;
+    if (item.children.length > 0) {
+      return item.children.some((child: any) => isActive(child.path));
+    }
+    return false;
+  };
+
+  const drawerWidth = 260;
+
+  const drawer = (
+    <Box sx={{ 
+      display: 'flex', 
+      flexDirection: 'column', 
+      height: '100%',
+      backgroundColor: theme.palette.background.paper,
+    }}>
       <Box sx={{ 
-        px: { xs: 1, sm: 1.5 }, 
-        mb: 2, 
+        p: 2, 
         display: 'flex', 
-        alignItems: 'center',
-        justifyContent: open ? 'flex-start' : 'center',
-        ml: open ? 1 : 0,
+        alignItems: 'center', 
+        justifyContent: 'center',
+        borderBottom: `1px solid ${theme.palette.divider}`,
       }}>
-        <img 
-          src="/logo.png" 
-          alt="Logo" 
-          style={{ 
-            height: '32px',
-            width: 'auto',
-          }} 
-        />
-        {open && (
-          <Box sx={{ ml: 1.5, display: 'flex', flexDirection: 'column' }}>
-            <Box sx={{ 
-              fontSize: '1.125rem', 
-              fontWeight: 600,
-              color: theme.palette.primary.main,
-              lineHeight: 1.2,
-            }}>
-              Studio
-            </Box>
-            <Box sx={{ 
-              fontSize: '0.75rem',
-              color: theme.palette.text.secondary,
-              lineHeight: 1.2,
-            }}>
-              Manager
-            </Box>
-          </Box>
-        )}
+        <Typography 
+          variant="h6" 
+          component="div" 
+          sx={{ 
+            fontWeight: 700, 
+            color: theme.palette.primary.main,
+            fontSize: '1.25rem',
+            letterSpacing: '0.5px',
+          }}
+        >
+          Studio Manager
+        </Typography>
       </Box>
-
-      <List sx={{ px: 0 }}>
-        {menuItems.map((item) => {
-          const StyledLink = styled(Link)({
-            textDecoration: 'none',
-            color: 'inherit',
-            display: 'flex',
-            width: '100%',
-          });
-
-          return (
-            <ListItem key={item.text} disablePadding sx={{ mb: 0.5 }}>
-              <StyledLink to={item.path}>
-                <StyledListItemButton
-                  selected={location.pathname === item.path}
-                  sx={{
-                    minHeight: 40,
-                    justifyContent: open ? 'initial' : 'center',
-                    px: 2,
-                    width: '100%',
+      <Box sx={{ 
+        flexGrow: 1, 
+        overflow: 'auto',
+        py: 2,
+        px: 1.5,
+      }}>
+        <List component="nav" sx={{ width: '100%' }}>
+          {menuItems.map((item) => (
+            <React.Fragment key={item.title}>
+              <ListItemButton
+                component={item.children.length > 0 ? 'div' : Link}
+                to={item.children.length > 0 ? undefined : item.path}
+                onClick={() => item.children.length > 0 ? handleSubMenuClick(item.title) : null}
+                sx={{
+                  mb: 0.5,
+                  borderRadius: '6px',
+                  py: 1,
+                  color: isParentActive(item) 
+                    ? '#fff' 
+                    : theme.palette.text.primary,
+                  backgroundColor: isParentActive(item) 
+                    ? theme.palette.primary.main 
+                    : 'transparent',
+                  '&:hover': {
+                    backgroundColor: isParentActive(item) 
+                      ? theme.palette.primary.dark 
+                      : isDark 
+                        ? 'rgba(255, 255, 255, 0.05)' 
+                        : 'rgba(0, 0, 0, 0.04)',
+                  },
+                }}
+              >
+                <ListItemIcon sx={{ 
+                  minWidth: 40,
+                  color: isParentActive(item) 
+                    ? '#fff' 
+                    : theme.palette.text.secondary,
+                }}>
+                  {item.icon}
+                </ListItemIcon>
+                <ListItemText 
+                  primary={item.title} 
+                  primaryTypographyProps={{ 
+                    fontSize: '0.875rem',
+                    fontWeight: isParentActive(item) ? 600 : 500,
                   }}
-                >
-                  <ListItemIcon
-                    sx={{
-                      minWidth: 0,
-                      mr: open ? 1.5 : 'auto',
-                      justifyContent: 'center',
-                      color: location.pathname === item.path 
-                        ? '#fff' 
-                        : theme.palette.text.secondary,
-                      fontSize: '1.25rem',
-                    }}
-                  >
-                    {item.icon}
-                  </ListItemIcon>
-                  {open && (
-                    <ListItemText 
-                      primary={item.text}
-                      sx={{
-                        opacity: 1,
-                        '& .MuiListItemText-primary': {
-                          fontSize: '0.813rem',
-                          fontWeight: location.pathname === item.path ? 600 : 500,
-                          color: location.pathname === item.path ? '#fff' : theme.palette.text.secondary,
-                        },
-                      }}
-                    />
-                  )}
-                </StyledListItemButton>
-              </StyledLink>
-            </ListItem>
-          );
-        })}
-      </List>
+                />
+                {item.children.length > 0 && (
+                  openSubMenu === item.title ? <ExpandLess /> : <ExpandMore />
+                )}
+              </ListItemButton>
+              {item.children.length > 0 && (
+                <Collapse in={openSubMenu === item.title} timeout="auto" unmountOnExit>
+                  <List component="div" disablePadding>
+                    {item.children.map((child) => (
+                      <ListItemButton
+                        key={child.title}
+                        component={Link}
+                        to={child.path}
+                        sx={{
+                          pl: 6,
+                          py: 0.75,
+                          mb: 0.5,
+                          borderRadius: '6px',
+                          color: isActive(child.path) 
+                            ? theme.palette.primary.main 
+                            : theme.palette.text.secondary,
+                          backgroundColor: isActive(child.path) 
+                            ? isDark 
+                              ? 'rgba(99, 102, 241, 0.15)' 
+                              : 'rgba(99, 102, 241, 0.08)' 
+                            : 'transparent',
+                          '&:hover': {
+                            backgroundColor: isActive(child.path) 
+                              ? isDark 
+                                ? 'rgba(99, 102, 241, 0.2)' 
+                                : 'rgba(99, 102, 241, 0.12)' 
+                              : isDark 
+                                ? 'rgba(255, 255, 255, 0.05)' 
+                                : 'rgba(0, 0, 0, 0.04)',
+                          },
+                        }}
+                      >
+                        <ListItemText 
+                          primary={child.title} 
+                          primaryTypographyProps={{ 
+                            fontSize: '0.813rem',
+                            fontWeight: isActive(child.path) ? 600 : 400,
+                          }}
+                        />
+                      </ListItemButton>
+                    ))}
+                  </List>
+                </Collapse>
+              )}
+            </React.Fragment>
+          ))}
+        </List>
+      </Box>
+      <Box sx={{ 
+        p: 2, 
+        borderTop: `1px solid ${theme.palette.divider}`,
+        textAlign: 'center',
+      }}>
+        <Typography variant="caption" color="text.secondary">
+          2023 Studio Manager
+        </Typography>
+      </Box>
     </Box>
   );
 
-  if (isMobile) {
-    return (
-      <SwipeableDrawer
-        anchor="left"
-        open={open}
-        onClose={onToggle}
-        onOpen={onToggle}
-        sx={{
-          '& .MuiDrawer-paper': {
-            width: drawerWidth,
-            backgroundColor: theme.palette.mode === 'light' ? '#fff' : theme.palette.background.paper,
-            boxShadow: theme.shadows[1],
-          },
-          '& .MuiBackdrop-root': {
-            backgroundColor: 'rgba(0, 0, 0, 0.3)',
-          },
-        }}
-      >
-        {sidebarContent}
-      </SwipeableDrawer>
-    );
-  }
-
   return (
-    <StyledDrawer
-      variant="permanent"
-      className={open ? '' : 'collapsed'}
+    <Box
+      component="nav"
+      sx={{ width: { md: drawerWidth }, flexShrink: { md: 0 } }}
     >
-      {sidebarContent}
-    </StyledDrawer>
+      {isMobile ? (
+        <Drawer
+          variant="temporary"
+          open={open}
+          onClose={onClose}
+          ModalProps={{ keepMounted: true }}
+          sx={{
+            display: { xs: 'block', md: 'none' },
+            '& .MuiDrawer-paper': { 
+              boxSizing: 'border-box', 
+              width: drawerWidth,
+              borderRight: `1px solid ${theme.palette.divider}`,
+              boxShadow: '0 2px 10px rgba(0, 0, 0, 0.08)',
+            },
+          }}
+        >
+          {drawer}
+        </Drawer>
+      ) : (
+        <Drawer
+          variant={variant}
+          open={open}
+          sx={{
+            display: { xs: 'none', md: 'block' },
+            '& .MuiDrawer-paper': { 
+              boxSizing: 'border-box', 
+              width: drawerWidth,
+              borderRight: `1px solid ${theme.palette.divider}`,
+              boxShadow: theme.shadows[1],
+              transition: theme.transitions.create(['width', 'margin'], {
+                easing: theme.transitions.easing.sharp,
+                duration: theme.transitions.duration.enteringScreen,
+              }),
+            },
+          }}
+        >
+          {drawer}
+        </Drawer>
+      )}
+    </Box>
   );
 };
 

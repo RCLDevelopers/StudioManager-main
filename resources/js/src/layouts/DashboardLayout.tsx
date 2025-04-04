@@ -1,22 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { Box, useTheme, useMediaQuery } from '@mui/material';
+import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import Sidebar from '@/components/layout/Sidebar';
+import { Box, useMediaQuery, useTheme } from '@mui/material';
 import Navbar from '@/components/layout/Navbar';
+import Sidebar from '@/components/layout/Sidebar';
 import Footer from '@/components/layout/Footer';
-import { useThemeContext } from '@/theme/ThemeContext';
 
 const DashboardLayout = () => {
   const theme = useTheme();
-  const { mode } = useThemeContext();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const [sidebarOpen, setSidebarOpen] = useState(!isMobile);
 
-  useEffect(() => {
-    setSidebarOpen(!isMobile);
-  }, [isMobile]);
-
-  const toggleSidebar = () => {
+  const handleSidebarToggle = () => {
     setSidebarOpen(!sidebarOpen);
   };
 
@@ -25,72 +19,32 @@ const DashboardLayout = () => {
       display: 'flex', 
       minHeight: '100vh',
       backgroundColor: theme.palette.background.default,
-      overflow: 'hidden',
-      position: 'relative',
     }}>
-      <Box
-        sx={{
-          position: { xs: 'absolute', md: 'relative' },
-          left: 0,
-          top: 0,
-          bottom: 0,
-          zIndex: theme.zIndex.drawer,
-        }}
-      >
-        <Sidebar open={sidebarOpen} onToggle={toggleSidebar} isMobile={isMobile} />
-      </Box>
-      <Box
-        component="main"
-        sx={{
+      <Sidebar 
+        open={sidebarOpen} 
+        onClose={handleSidebarToggle}
+        variant={isMobile ? 'temporary' : 'permanent'}
+      />
+      
+      <Box 
+        component="main" 
+        sx={{ 
           flexGrow: 1,
-          minHeight: '100vh',
           display: 'flex',
           flexDirection: 'column',
-          position: 'relative',
-          width: '100%',
-          transition: theme.transitions.create(['margin', 'width'], {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.enteringScreen,
-          }),
-          ...((!isMobile && sidebarOpen) && {
-            marginLeft: '240px',
-            width: `calc(100% - 240px)`,
-          }),
-          ...((!isMobile && !sidebarOpen) && {
-            marginLeft: '72px',
-            width: `calc(100% - 72px)`,
-          }),
+          width: { xs: '100%', md: `calc(100% - 260px)` },
+          minHeight: '100vh',
+          overflowX: 'hidden',
         }}
       >
-        <Navbar onMenuClick={toggleSidebar} />
-        <Box
-          component="div"
-          sx={{
-            flexGrow: 1,
-            p: { xs: 0, sm: 0 },
-            backgroundColor: theme.palette.background.default,
-            overflow: 'auto',
-            width: '100%',
-            maxWidth: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-            minHeight: `calc(100vh - 56px)`,
-            '&::-webkit-scrollbar': {
-              width: '4px',
-              height: '4px',
-            },
-            '&::-webkit-scrollbar-track': {
-              background: 'transparent',
-            },
-            '&::-webkit-scrollbar-thumb': {
-              background: theme.palette.mode === 'light' ? '#CBD5E1' : '#475569',
-              borderRadius: '4px',
-            },
-            '&::-webkit-scrollbar-thumb:hover': {
-              background: theme.palette.mode === 'light' ? '#94A3B8' : '#64748B',
-            },
-          }}
-        >
+        <Navbar onSidebarToggle={handleSidebarToggle} />
+        
+        <Box sx={{ 
+          flexGrow: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          pt: { xs: 2, sm: 3 },
+        }}>
           <Box sx={{ 
             maxWidth: '100%',
             margin: '0 auto',
@@ -99,8 +53,9 @@ const DashboardLayout = () => {
           }}>
             <Outlet />
           </Box>
-          <Footer />
         </Box>
+        
+        <Footer />
       </Box>
     </Box>
   );

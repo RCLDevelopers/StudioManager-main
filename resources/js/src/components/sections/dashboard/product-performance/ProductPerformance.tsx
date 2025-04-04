@@ -1,8 +1,6 @@
 import React from 'react';
 import {
   Box,
-  Card,
-  CardContent,
   Typography,
   Table,
   TableBody,
@@ -15,6 +13,7 @@ import {
 } from '@mui/material';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import TrendingDownIcon from '@mui/icons-material/TrendingDown';
+import { getCommonHeaderStyle } from '@/utils/chartStyles';
 
 const products = [
   {
@@ -63,28 +62,43 @@ const ProductPerformance = () => {
   const theme = useTheme();
 
   return (
-    <Card sx={{ 
-      height: '100%',
-      borderRadius: '1rem',
-      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
-    }}>
-      <CardContent>
-        <Box sx={{ mb: 3 }}>
-          <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
-            Product Performance
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Revenue by product category
-          </Typography>
-        </Box>
-        <TableContainer>
-          <Table>
+    <>
+      <Box sx={getCommonHeaderStyle()}>
+        <Typography variant="h6" sx={{ fontWeight: 600, mb: 0.5 }}>
+          Product Performance
+        </Typography>
+        <Typography variant="caption" color="text.secondary">
+          Revenue by product category
+        </Typography>
+      </Box>
+      <Box sx={{ 
+        flexGrow: 1, 
+        overflow: 'auto',
+        '&::-webkit-scrollbar': {
+          width: '4px',
+          height: '4px',
+        },
+        '&::-webkit-scrollbar-track': {
+          background: 'transparent',
+        },
+        '&::-webkit-scrollbar-thumb': {
+          background: theme.palette.mode === 'light' ? '#CBD5E1' : '#475569',
+          borderRadius: '4px',
+        },
+        '&::-webkit-scrollbar-thumb:hover': {
+          background: theme.palette.mode === 'light' ? '#94A3B8' : '#64748B',
+        },
+      }}>
+        <TableContainer sx={{ minWidth: '100%' }}>
+          <Table size="small" stickyHeader>
             <TableHead>
               <TableRow>
                 <TableCell sx={{ 
                   fontWeight: 600,
                   color: theme.palette.text.primary,
                   borderBottom: `1px solid ${theme.palette.divider}`,
+                  backgroundColor: theme.palette.background.paper,
+                  py: 1.5,
                 }}>
                   Product
                 </TableCell>
@@ -92,6 +106,8 @@ const ProductPerformance = () => {
                   fontWeight: 600,
                   color: theme.palette.text.primary,
                   borderBottom: `1px solid ${theme.palette.divider}`,
+                  backgroundColor: theme.palette.background.paper,
+                  py: 1.5,
                 }}>
                   Sales
                 </TableCell>
@@ -99,6 +115,8 @@ const ProductPerformance = () => {
                   fontWeight: 600,
                   color: theme.palette.text.primary,
                   borderBottom: `1px solid ${theme.palette.divider}`,
+                  backgroundColor: theme.palette.background.paper,
+                  py: 1.5,
                 }}>
                   Revenue
                 </TableCell>
@@ -106,6 +124,8 @@ const ProductPerformance = () => {
                   fontWeight: 600,
                   color: theme.palette.text.primary,
                   borderBottom: `1px solid ${theme.palette.divider}`,
+                  backgroundColor: theme.palette.background.paper,
+                  py: 1.5,
                 }}>
                   Growth
                 </TableCell>
@@ -113,6 +133,8 @@ const ProductPerformance = () => {
                   fontWeight: 600,
                   color: theme.palette.text.primary,
                   borderBottom: `1px solid ${theme.palette.divider}`,
+                  backgroundColor: theme.palette.background.paper,
+                  py: 1.5,
                 }}>
                   Status
                 </TableCell>
@@ -123,6 +145,7 @@ const ProductPerformance = () => {
                 <TableRow key={product.id} hover>
                   <TableCell sx={{ 
                     borderBottom: `1px solid ${theme.palette.divider}`,
+                    py: 1.5,
                   }}>
                     <Typography variant="subtitle2" sx={{ fontWeight: 500 }}>
                       {product.name}
@@ -130,16 +153,19 @@ const ProductPerformance = () => {
                   </TableCell>
                   <TableCell align="right" sx={{ 
                     borderBottom: `1px solid ${theme.palette.divider}`,
+                    py: 1.5,
                   }}>
                     {product.sales.toLocaleString()}
                   </TableCell>
                   <TableCell align="right" sx={{ 
                     borderBottom: `1px solid ${theme.palette.divider}`,
+                    py: 1.5,
                   }}>
                     ${product.revenue.toLocaleString()}
                   </TableCell>
                   <TableCell align="right" sx={{ 
                     borderBottom: `1px solid ${theme.palette.divider}`,
+                    py: 1.5,
                   }}>
                     <Box sx={{ 
                       display: 'flex',
@@ -160,6 +186,7 @@ const ProductPerformance = () => {
                   </TableCell>
                   <TableCell align="right" sx={{ 
                     borderBottom: `1px solid ${theme.palette.divider}`,
+                    py: 1.5,
                   }}>
                     <Chip
                       label={product.status}
@@ -181,8 +208,8 @@ const ProductPerformance = () => {
             </TableBody>
           </Table>
         </TableContainer>
-      </CardContent>
-    </Card>
+      </Box>
+    </>
   );
 };
 

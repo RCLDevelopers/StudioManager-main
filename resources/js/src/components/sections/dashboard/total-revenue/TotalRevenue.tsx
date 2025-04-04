@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Card, CardContent, Typography, useTheme } from '@mui/material';
+import { Box, Typography, useTheme } from '@mui/material';
 import { Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -12,6 +12,7 @@ import {
   Legend,
   Filler
 } from 'chart.js';
+import { getCommonChartOptions, getCommonChartContainerStyle, getCommonHeaderStyle } from '@/utils/chartStyles';
 
 ChartJS.register(
   CategoryScale,
@@ -26,6 +27,7 @@ ChartJS.register(
 
 const TotalRevenue = () => {
   const theme = useTheme();
+  const commonOptions = getCommonChartOptions(theme);
 
   const data = {
     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
@@ -50,30 +52,14 @@ const TotalRevenue = () => {
   };
 
   const options = {
-    responsive: true,
-    maintainAspectRatio: false,
+    ...commonOptions,
     plugins: {
+      ...commonOptions.plugins,
       legend: {
         display: false,
       },
       tooltip: {
-        backgroundColor: theme.palette.background.paper,
-        titleColor: theme.palette.text.primary,
-        bodyColor: theme.palette.text.secondary,
-        borderColor: theme.palette.divider,
-        borderWidth: 1,
-        padding: 12,
-        cornerRadius: 8,
-        displayColors: false,
-        titleFont: {
-          family: theme.typography.fontFamily,
-          size: 14,
-          weight: 600,
-        },
-        bodyFont: {
-          family: theme.typography.fontFamily,
-          size: 13,
-        },
+        ...commonOptions.plugins.tooltip,
         callbacks: {
           label: function(context: any) {
             return `$${context.parsed.y.toLocaleString()}`;
@@ -82,60 +68,36 @@ const TotalRevenue = () => {
       },
     },
     scales: {
-      x: {
-        grid: {
-          display: false,
-        },
-        ticks: {
-          font: {
-            family: theme.typography.fontFamily,
-            size: 12,
-          },
-          color: theme.palette.text.secondary,
-        },
-      },
+      ...commonOptions.scales,
       y: {
+        ...commonOptions.scales.y,
         min: 25000,
         max: 55000,
         ticks: {
+          ...commonOptions.scales.y.ticks,
           stepSize: 5000,
           callback: function(value: any) {
             return `$${(value / 1000).toFixed(0)}k`;
           },
-          font: {
-            family: theme.typography.fontFamily,
-            size: 12,
-          },
-          color: theme.palette.text.secondary,
-        },
-        grid: {
-          color: theme.palette.divider,
-          borderDash: [5, 5],
         },
       },
     },
   };
 
   return (
-    <Card sx={{ 
-      height: '100%',
-      borderRadius: '1rem',
-      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
-    }}>
-      <CardContent>
-        <Box sx={{ mb: 3 }}>
-          <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
-            Total Revenue
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Monthly revenue statistics
-          </Typography>
-        </Box>
-        <Box sx={{ height: 350, width: '100%' }}>
-          <Line data={data} options={options} />
-        </Box>
-      </CardContent>
-    </Card>
+    <>
+      <Box sx={getCommonHeaderStyle()}>
+        <Typography variant="h6" sx={{ fontWeight: 600, mb: 0.5 }}>
+          Total Revenue
+        </Typography>
+        <Typography variant="caption" color="text.secondary">
+          Monthly revenue statistics
+        </Typography>
+      </Box>
+      <Box sx={getCommonChartContainerStyle()}>
+        <Line data={data} options={options} />
+      </Box>
+    </>
   );
 };
 

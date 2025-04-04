@@ -4,182 +4,149 @@ const darkTheme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: '#818CF8', // Lighter indigo
-      light: '#A5B4FC',
-      dark: '#6366F1',
-      contrastText: '#0F172A',
+      main: '#6366F1',
+      contrastText: '#fff',
     },
     secondary: {
-      main: '#C084FC', // Lighter purple
-      light: '#D8B4FE',
-      dark: '#A855F7',
-      contrastText: '#0F172A',
-    },
-    error: {
-      main: '#F87171', // Lighter red
-      light: '#FCA5A5',
-      dark: '#EF4444',
-    },
-    warning: {
-      main: '#FB923C', // Lighter orange
-      light: '#FDBA74',
-      dark: '#F97316',
-    },
-    info: {
-      main: '#60A5FA', // Lighter blue
-      light: '#93C5FD',
-      dark: '#3B82F6',
-    },
-    success: {
-      main: '#4ADE80', // Lighter green
-      light: '#86EFAC',
-      dark: '#22C55E',
+      main: '#64748B',
+      contrastText: '#fff',
     },
     background: {
-      default: '#0F172A', // Slate 900
-      paper: '#1E293B', // Slate 800
+      default: '#0F172A',
+      paper: '#1E293B',
     },
     text: {
-      primary: '#F8FAFC', // Slate 50
-      secondary: '#CBD5E1', // Slate 300
-      disabled: '#94A3B8', // Slate 400
+      primary: '#E2E8F0',
+      secondary: '#94A3B8',
     },
-    divider: 'rgba(255, 255, 255, 0.05)',
-    action: {
-      active: '#818CF8',
-      hover: 'rgba(129, 140, 248, 0.08)',
-      selected: 'rgba(129, 140, 248, 0.16)',
-      disabled: 'rgba(255, 255, 255, 0.26)',
-      disabledBackground: 'rgba(255, 255, 255, 0.12)',
+    error: {
+      main: '#EF4444',
     },
+    warning: {
+      main: '#F59E0B',
+    },
+    info: {
+      main: '#3B82F6',
+    },
+    success: {
+      main: '#10B981',
+    },
+    divider: 'rgba(148, 163, 184, 0.12)',
   },
   typography: {
     fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
-    fontWeightRegular: 400,
-    fontWeightMedium: 500,
-    fontWeightBold: 600,
     h1: {
       fontWeight: 600,
-      fontSize: '2.5rem',
-      lineHeight: 1.2,
     },
     h2: {
       fontWeight: 600,
-      fontSize: '2rem',
-      lineHeight: 1.2,
     },
     h3: {
       fontWeight: 600,
-      fontSize: '1.75rem',
-      lineHeight: 1.2,
     },
     h4: {
       fontWeight: 600,
-      fontSize: '1.5rem',
-      lineHeight: 1.2,
     },
     h5: {
       fontWeight: 600,
-      fontSize: '1.25rem',
-      lineHeight: 1.2,
     },
     h6: {
       fontWeight: 600,
-      fontSize: '1rem',
-      lineHeight: 1.2,
     },
     subtitle1: {
-      fontSize: '1rem',
       fontWeight: 500,
-      lineHeight: 1.5,
     },
     subtitle2: {
-      fontSize: '0.875rem',
       fontWeight: 500,
-      lineHeight: 1.57,
     },
     body1: {
-      fontSize: '0.875rem',
-      lineHeight: 1.5,
+      fontWeight: 400,
     },
     body2: {
-      fontSize: '0.75rem',
-      lineHeight: 1.5,
+      fontWeight: 400,
     },
     button: {
-      textTransform: 'none',
       fontWeight: 500,
-      fontSize: '0.875rem',
+      textTransform: 'none',
     },
   },
   shape: {
-    borderRadius: 6,
+    borderRadius: 8,
   },
   shadows: [
     'none',
-    '0 1px 2px 0 rgb(0 0 0 / 0.1)',
-    '0 1px 3px 0 rgb(0 0 0 / 0.15), 0 1px 2px -1px rgb(0 0 0 / 0.15)',
-    '0 4px 6px -1px rgb(0 0 0 / 0.15), 0 2px 4px -2px rgb(0 0 0 / 0.15)',
-    '0 10px 15px -3px rgb(0 0 0 / 0.15), 0 4px 6px -4px rgb(0 0 0 / 0.15)',
-    '0 20px 25px -5px rgb(0 0 0 / 0.15), 0 8px 10px -6px rgb(0 0 0 / 0.15)',
-    '0 25px 50px -12px rgb(0 0 0 / 0.3)',
-    '0 1px 3px 0 rgb(0 0 0 / 0.15), 0 1px 2px -1px rgb(0 0 0 / 0.15)',
-    '0 4px 6px -1px rgb(0 0 0 / 0.15), 0 2px 4px -2px rgb(0 0 0 / 0.15)',
-    '0 10px 15px -3px rgb(0 0 0 / 0.15), 0 4px 6px -4px rgb(0 0 0 / 0.15)',
-    '0 20px 25px -5px rgb(0 0 0 / 0.15), 0 8px 10px -6px rgb(0 0 0 / 0.15)',
-    '0 25px 50px -12px rgb(0 0 0 / 0.3)',
-    '0 1px 3px 0 rgb(0 0 0 / 0.15), 0 1px 2px -1px rgb(0 0 0 / 0.15)',
-    '0 4px 6px -1px rgb(0 0 0 / 0.15), 0 2px 4px -2px rgb(0 0 0 / 0.15)',
-    '0 10px 15px -3px rgb(0 0 0 / 0.15), 0 4px 6px -4px rgb(0 0 0 / 0.15)',
-    '0 20px 25px -5px rgb(0 0 0 / 0.15), 0 8px 10px -6px rgb(0 0 0 / 0.15)',
-    '0 25px 50px -12px rgb(0 0 0 / 0.3)',
-    '0 1px 3px 0 rgb(0 0 0 / 0.15), 0 1px 2px -1px rgb(0 0 0 / 0.15)',
-    '0 4px 6px -1px rgb(0 0 0 / 0.15), 0 2px 4px -2px rgb(0 0 0 / 0.15)',
-    '0 10px 15px -3px rgb(0 0 0 / 0.15), 0 4px 6px -4px rgb(0 0 0 / 0.15)',
-    '0 20px 25px -5px rgb(0 0 0 / 0.15), 0 8px 10px -6px rgb(0 0 0 / 0.15)',
-    '0 25px 50px -12px rgb(0 0 0 / 0.3)',
-    '0 1px 3px 0 rgb(0 0 0 / 0.15), 0 1px 2px -1px rgb(0 0 0 / 0.15)',
-    '0 4px 6px -1px rgb(0 0 0 / 0.15), 0 2px 4px -2px rgb(0 0 0 / 0.15)',
-    '0 10px 15px -3px rgb(0 0 0 / 0.15), 0 4px 6px -4px rgb(0 0 0 / 0.15)',
+    '0 1px 3px 0 rgba(0, 0, 0, 0.2)',
+    '0 1px 5px 0 rgba(0, 0, 0, 0.3)',
+    '0 1px 8px 0 rgba(0, 0, 0, 0.32)',
+    '0 1px 10px 0 rgba(0, 0, 0, 0.34)',
+    '0 1px 14px 0 rgba(0, 0, 0, 0.4)',
+    '0 1px 18px 0 rgba(0, 0, 0, 0.42)',
+    '0 2px 16px 1px rgba(0, 0, 0, 0.2)',
+    '0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 1px 18px 0 rgba(0, 0, 0, 0.2)',
+    '0 5px 22px 4px rgba(0, 0, 0, 0.12), 0 2px 16px 1px rgba(0, 0, 0, 0.2)',
+    '0 5px 26px 4px rgba(0, 0, 0, 0.12), 0 3px 14px 2px rgba(0, 0, 0, 0.2)',
+    '0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 3px 16px 2px rgba(0, 0, 0, 0.2)',
+    '0 7px 34px 6px rgba(0, 0, 0, 0.12), 0 3px 18px 3px rgba(0, 0, 0, 0.2)',
+    '0 7px 38px 6px rgba(0, 0, 0, 0.12), 0 4px 20px 3px rgba(0, 0, 0, 0.2)',
+    '0 8px 42px 7px rgba(0, 0, 0, 0.12), 0 4px 22px 3px rgba(0, 0, 0, 0.2)',
+    '0 8px 46px 7px rgba(0, 0, 0, 0.12), 0 4px 24px 4px rgba(0, 0, 0, 0.2)',
+    '0 9px 50px 8px rgba(0, 0, 0, 0.12), 0 5px 26px 4px rgba(0, 0, 0, 0.2)',
+    '0 10px 54px 9px rgba(0, 0, 0, 0.12), 0 5px 28px 4px rgba(0, 0, 0, 0.2)',
+    '0 10px 58px 9px rgba(0, 0, 0, 0.12), 0 6px 30px 5px rgba(0, 0, 0, 0.2)',
+    '0 11px 62px 10px rgba(0, 0, 0, 0.12), 0 6px 32px 5px rgba(0, 0, 0, 0.2)',
+    '0 11px 66px 10px rgba(0, 0, 0, 0.12), 0 6px 34px 6px rgba(0, 0, 0, 0.2)',
+    '0 12px 70px 11px rgba(0, 0, 0, 0.12), 0 7px 36px 6px rgba(0, 0, 0, 0.2)',
+    '0 12px 74px 11px rgba(0, 0, 0, 0.12), 0 7px 38px 6px rgba(0, 0, 0, 0.2)',
+    '0 13px 78px 12px rgba(0, 0, 0, 0.12), 0 7px 40px 7px rgba(0, 0, 0, 0.2)',
+    '0 13px 82px 12px rgba(0, 0, 0, 0.12), 0 8px 42px 7px rgba(0, 0, 0, 0.2)',
   ],
   components: {
     MuiCssBaseline: {
       styleOverrides: {
-        '*': {
-          boxSizing: 'border-box',
-        },
-        html: {
-          MozOsxFontSmoothing: 'grayscale',
-          WebkitFontSmoothing: 'antialiased',
-          height: '100%',
-          width: '100%',
-        },
         body: {
-          height: '100%',
-          margin: 0,
-          padding: 0,
-        },
-        '#root': {
-          height: '100%',
-        },
-        'input:-webkit-autofill': {
-          WebkitBoxShadow: '0 0 0 30px #1E293B inset !important',
-          WebkitTextFillColor: '#F8FAFC !important',
+          scrollbarColor: "#475569 #1E293B",
+          "&::-webkit-scrollbar, & *::-webkit-scrollbar": {
+            backgroundColor: "#1E293B",
+            width: 8,
+            height: 8,
+          },
+          "&::-webkit-scrollbar-thumb, & *::-webkit-scrollbar-thumb": {
+            borderRadius: 4,
+            backgroundColor: "#475569",
+            border: "2px solid #1E293B",
+          },
+          "&::-webkit-scrollbar-thumb:focus, & *::-webkit-scrollbar-thumb:focus": {
+            backgroundColor: "#64748B",
+          },
+          "&::-webkit-scrollbar-thumb:active, & *::-webkit-scrollbar-thumb:active": {
+            backgroundColor: "#64748B",
+          },
+          "&::-webkit-scrollbar-thumb:hover, & *::-webkit-scrollbar-thumb:hover": {
+            backgroundColor: "#64748B",
+          },
         },
       },
     },
     MuiButton: {
       styleOverrides: {
         root: {
-          borderRadius: 6,
           textTransform: 'none',
-          boxShadow: '0 1px 2px rgba(0, 0, 0, 0.25)',
+          borderRadius: 6,
+          boxShadow: 'none',
           '&:hover': {
-            boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.3)',
+            boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.3)',
           },
         },
         contained: {
-          boxShadow: '0 1px 2px rgba(0, 0, 0, 0.25)',
+          boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.2)',
+        },
+      },
+    },
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          borderRadius: 8,
+          boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.3)',
         },
       },
     },
@@ -188,32 +155,94 @@ const darkTheme = createTheme({
         root: {
           backgroundImage: 'none',
         },
-        rounded: {
-          borderRadius: 8,
+        elevation1: {
+          boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.3)',
         },
       },
     },
-    MuiCard: {
+    MuiTableCell: {
       styleOverrides: {
         root: {
-          boxShadow: '0 1px 2px 0 rgb(0 0 0 / 0.15)',
-          borderRadius: 8,
-          backgroundImage: 'none',
+          borderBottom: '1px solid rgba(148, 163, 184, 0.12)',
         },
       },
     },
-    MuiCardHeader: {
-      defaultProps: {
-        titleTypographyProps: {
-          variant: 'h6',
+    MuiInputBase: {
+      styleOverrides: {
+        input: {
+          '&::placeholder': {
+            opacity: 0.7,
+            color: '#94A3B8',
+          },
         },
       },
     },
-    MuiLinearProgress: {
+    MuiOutlinedInput: {
       styleOverrides: {
         root: {
           borderRadius: 6,
-          height: 8,
+          '& .MuiOutlinedInput-notchedOutline': {
+            borderColor: 'rgba(148, 163, 184, 0.2)',
+          },
+          '&:hover .MuiOutlinedInput-notchedOutline': {
+            borderColor: 'rgba(148, 163, 184, 0.3)',
+          },
+          '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+            borderColor: '#6366F1',
+          },
+        },
+      },
+    },
+    MuiAppBar: {
+      styleOverrides: {
+        root: {
+          boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.3)',
+        },
+      },
+    },
+    MuiSwitch: {
+      styleOverrides: {
+        root: {
+          width: 42,
+          height: 26,
+          padding: 0,
+          '& .MuiSwitch-switchBase': {
+            padding: 0,
+            margin: 2,
+            transitionDuration: '300ms',
+            '&.Mui-checked': {
+              transform: 'translateX(16px)',
+              color: '#fff',
+              '& + .MuiSwitch-track': {
+                backgroundColor: '#6366F1',
+                opacity: 1,
+                border: 0,
+              },
+              '&.Mui-disabled + .MuiSwitch-track': {
+                opacity: 0.5,
+              },
+            },
+            '&.Mui-focusVisible .MuiSwitch-thumb': {
+              color: '#6366F1',
+              border: '6px solid #fff',
+            },
+            '&.Mui-disabled .MuiSwitch-thumb': {
+              color: '#333',
+            },
+            '&.Mui-disabled + .MuiSwitch-track': {
+              opacity: 0.3,
+            },
+          },
+          '& .MuiSwitch-thumb': {
+            boxSizing: 'border-box',
+            width: 22,
+            height: 22,
+          },
+          '& .MuiSwitch-track': {
+            borderRadius: 26 / 2,
+            backgroundColor: '#475569',
+            opacity: 1,
+          },
         },
       },
     },
@@ -221,29 +250,45 @@ const darkTheme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: 6,
+          '&.Mui-selected': {
+            backgroundColor: '#4F46E5',
+            color: '#fff',
+            '&:hover': {
+              backgroundColor: '#4338CA',
+            },
+            '& .MuiListItemIcon-root': {
+              color: '#fff',
+            },
+          },
         },
       },
     },
     MuiListItemIcon: {
       styleOverrides: {
         root: {
+          color: '#94A3B8',
           minWidth: 40,
-          color: '#CBD5E1',
         },
       },
     },
-    MuiOutlinedInput: {
+    MuiListItemText: {
+      styleOverrides: {
+        primary: {
+          fontSize: '0.875rem',
+        },
+      },
+    },
+    MuiChip: {
       styleOverrides: {
         root: {
-          '& .MuiOutlinedInput-notchedOutline': {
-            borderColor: 'rgba(255, 255, 255, 0.12)',
-          },
-          '&:hover .MuiOutlinedInput-notchedOutline': {
-            borderColor: 'rgba(255, 255, 255, 0.2)',
-          },
-          '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-            borderColor: '#818CF8',
-          },
+          borderRadius: 6,
+        },
+      },
+    },
+    MuiDivider: {
+      styleOverrides: {
+        root: {
+          borderColor: 'rgba(148, 163, 184, 0.12)',
         },
       },
     },

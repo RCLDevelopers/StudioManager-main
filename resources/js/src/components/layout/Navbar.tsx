@@ -21,7 +21,7 @@ import ThemeToggle from './ThemeToggle';
 import { useThemeContext } from '@/theme/ThemeContext';
 
 interface NavbarProps {
-  onMenuClick: () => void;
+  onSidebarToggle: () => void;
 }
 
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
@@ -92,7 +92,7 @@ const LanguageButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-const Navbar = ({ onMenuClick }: NavbarProps) => {
+const Navbar = ({ onSidebarToggle }: NavbarProps) => {
   const theme = useTheme();
   const { mode } = useThemeContext();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -103,7 +103,7 @@ const Navbar = ({ onMenuClick }: NavbarProps) => {
         <IconButton
           edge="start"
           aria-label="menu"
-          onClick={onMenuClick}
+          onClick={onSidebarToggle}
           sx={{
             mr: 1,
             color: theme.palette.text.secondary,

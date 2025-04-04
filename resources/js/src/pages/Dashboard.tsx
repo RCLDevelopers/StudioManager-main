@@ -7,6 +7,7 @@ import VisitorInsights from '@/components/sections/dashboard/visitor-insights/Vi
 import ProductPerformance from '@/components/sections/dashboard/product-performance/ProductPerformance';
 import WorldMap from '@/components/sections/dashboard/world-map/WorldMap';
 import TargetReality from '@/components/sections/dashboard/target-reality/TargetReality';
+import { getCommonCardStyle } from '@/utils/chartStyles';
 
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
@@ -59,13 +60,13 @@ const Dashboard = () => {
       width: '100%',
       maxWidth: '100%',
       overflow: 'hidden',
-      pb: 2,
+      pb: 3,
     }}>
       <Container 
         maxWidth={false}
         disableGutters 
         sx={{
-          px: { xs: 0.75, sm: 1.5 }, 
+          px: { xs: 1.5, sm: 2, md: 3 }, 
           maxWidth: '100%',
         }}
       >
@@ -76,9 +77,9 @@ const Dashboard = () => {
             justifyContent: 'space-between',
             alignItems: { xs: 'flex-start', sm: 'center' },
             gap: { xs: 1, sm: 0 },
-            mb: { xs: 1.5, sm: 2.5 }, 
+            mb: { xs: 2, sm: 3 }, 
             width: '100%',
-            px: { xs: 0.75, sm: 0 }, 
+            px: { xs: 0.5, sm: 0 }, 
           }}
         >
           <Box>
@@ -87,7 +88,7 @@ const Dashboard = () => {
               sx={{
                 fontSize: { xs: '1.25rem', sm: '1.375rem', md: '1.5rem' }, 
                 fontWeight: 600,
-                color: '#1E293B',
+                color: theme.palette.text.primary,
                 mb: 0.5,
                 lineHeight: 1.2,
               }}
@@ -97,7 +98,7 @@ const Dashboard = () => {
             <Typography
               variant="body1"
               sx={{
-                color: '#64748B',
+                color: theme.palette.text.secondary,
                 fontSize: { xs: '0.75rem', sm: '0.813rem' }, 
                 lineHeight: 1.5,
               }}
@@ -110,15 +111,15 @@ const Dashboard = () => {
             startIcon={<FileDownloadIcon sx={{ fontSize: '1.125rem' }} />}
             sx={{
               display: { xs: 'none', sm: 'flex' },
-              bgcolor: '#6366F1',
+              bgcolor: theme.palette.primary.main,
               '&:hover': {
-                bgcolor: '#4F46E5',
+                bgcolor: theme.palette.primary.dark,
               },
               textTransform: 'none',
               fontSize: '0.813rem',
               fontWeight: 500,
               borderRadius: '6px',
-              boxShadow: '0 1px 2px rgba(100, 116, 139, 0.12)',
+              boxShadow: theme.shadows[1],
               py: 0.75, 
               px: 1.5,
               height: 36,
@@ -129,70 +130,55 @@ const Dashboard = () => {
           </Button>
         </Box>
 
-        <Grid container spacing={{ xs: 1.5, sm: 2 }}> 
+        <Grid container spacing={{ xs: 2, sm: 2.5, md: 3 }}> 
           {stats.map((stat, index) => (
             <Grid item xs={6} md={3} key={index}>
               <StatCard {...stat} />
             </Grid>
           ))}
 
-          <Grid item xs={12} lg={8}>
+          <Grid item xs={12} md={8}>
             <Box sx={{ 
-              height: { xs: 280, sm: 320, md: 350 },
-              backgroundColor: '#fff',
-              borderRadius: '8px',
-              boxShadow: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
+              ...getCommonCardStyle(theme),
+              height: { xs: 320, sm: 380, md: 400 },
               p: { xs: 1.5, sm: 2 },
-              overflow: 'hidden',
             }}> 
               <TotalRevenue />
             </Box>
           </Grid>
-          <Grid item xs={12} lg={4}>
+          <Grid item xs={12} md={4}>
             <Box sx={{ 
-              height: { xs: 280, sm: 320, md: 350 },
-              backgroundColor: '#fff',
-              borderRadius: '8px',
-              boxShadow: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
+              ...getCommonCardStyle(theme),
+              height: { xs: 320, sm: 380, md: 400 },
               p: { xs: 1.5, sm: 2 },
-              overflow: 'hidden',
             }}>
               <CustomerSatisfaction />
             </Box>
           </Grid>
 
-          <Grid item xs={12} md={6} lg={4}>
+          <Grid item xs={12} sm={6} md={4}>
             <Box sx={{ 
-              height: { xs: 280, sm: 300 },
-              backgroundColor: '#fff',
-              borderRadius: '8px',
-              boxShadow: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
+              ...getCommonCardStyle(theme),
+              height: { xs: 320, sm: 350, md: 380 },
               p: { xs: 1.5, sm: 2 },
-              overflow: 'hidden',
             }}>
               <VisitorInsights />
             </Box>
           </Grid>
-          <Grid item xs={12} md={6} lg={4}>
+          <Grid item xs={12} sm={6} md={4}>
             <Box sx={{ 
-              height: { xs: 280, sm: 300 },
-              backgroundColor: '#fff',
-              borderRadius: '8px',
-              boxShadow: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
+              ...getCommonCardStyle(theme),
+              height: { xs: 320, sm: 350, md: 380 },
               p: { xs: 1.5, sm: 2 },
-              overflow: 'hidden',
             }}>
               <ProductPerformance />
             </Box>
           </Grid>
-          <Grid item xs={12} lg={4}>
+          <Grid item xs={12} md={4}>
             <Box sx={{ 
-              height: { xs: 280, sm: 300 },
-              backgroundColor: '#fff',
-              borderRadius: '8px',
-              boxShadow: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
+              ...getCommonCardStyle(theme),
+              height: { xs: 320, sm: 350, md: 380 },
               p: { xs: 1.5, sm: 2 },
-              overflow: 'hidden',
             }}>
               <TargetReality />
             </Box>
@@ -200,12 +186,9 @@ const Dashboard = () => {
 
           <Grid item xs={12}>
             <Box sx={{ 
-              height: { xs: 280, sm: 320, md: 350 },
-              backgroundColor: '#fff',
-              borderRadius: '8px',
-              boxShadow: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
+              ...getCommonCardStyle(theme),
+              height: { xs: 320, sm: 350, md: 380 },
               p: { xs: 1.5, sm: 2 },
-              overflow: 'hidden',
             }}>
               <WorldMap />
             </Box>
