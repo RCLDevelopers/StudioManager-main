@@ -4,9 +4,11 @@ import { Outlet } from 'react-router-dom';
 import Sidebar from '@/components/layout/Sidebar';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
+import { useThemeContext } from '@/theme/ThemeContext';
 
 const DashboardLayout = () => {
   const theme = useTheme();
+  const { mode } = useThemeContext();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const [sidebarOpen, setSidebarOpen] = useState(!isMobile);
 
@@ -22,7 +24,7 @@ const DashboardLayout = () => {
     <Box sx={{ 
       display: 'flex', 
       minHeight: '100vh',
-      backgroundColor: '#F8FAFC', 
+      backgroundColor: theme.palette.background.default,
       overflow: 'hidden',
       position: 'relative',
     }}>
@@ -65,14 +67,14 @@ const DashboardLayout = () => {
           component="div"
           sx={{
             flexGrow: 1,
-            p: { xs: 0, sm: 0 }, 
-            backgroundColor: '#F8FAFC',
+            p: { xs: 0, sm: 0 },
+            backgroundColor: theme.palette.background.default,
             overflow: 'auto',
             width: '100%',
             maxWidth: '100%',
             display: 'flex',
             flexDirection: 'column',
-            minHeight: `calc(100vh - 56px)`, 
+            minHeight: `calc(100vh - 56px)`,
             '&::-webkit-scrollbar': {
               width: '4px',
               height: '4px',
@@ -81,11 +83,11 @@ const DashboardLayout = () => {
               background: 'transparent',
             },
             '&::-webkit-scrollbar-thumb': {
-              background: '#CBD5E1',
+              background: theme.palette.mode === 'light' ? '#CBD5E1' : '#475569',
               borderRadius: '4px',
             },
             '&::-webkit-scrollbar-thumb:hover': {
-              background: '#94A3B8',
+              background: theme.palette.mode === 'light' ? '#94A3B8' : '#64748B',
             },
           }}
         >

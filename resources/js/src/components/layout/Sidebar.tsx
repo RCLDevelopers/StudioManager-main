@@ -31,9 +31,9 @@ const StyledDrawer = styled(Drawer)(({ theme }) => ({
     }),
     boxSizing: 'border-box',
     border: 'none',
-    backgroundColor: '#fff',
+    backgroundColor: theme.palette.mode === 'light' ? '#fff' : theme.palette.background.paper,
     overflowX: 'hidden',
-    boxShadow: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
+    boxShadow: theme.shadows[1],
   },
   '&.collapsed .MuiDrawer-paper': {
     width: collapsedWidth,
@@ -50,18 +50,22 @@ const StyledListItemButton = styled(ListItemButton)(({ theme }) => ({
   borderRadius: '6px',
   transition: 'all 0.2s ease',
   '&.Mui-selected': {
-    backgroundColor: '#6366F1',
+    backgroundColor: theme.palette.primary.main,
     color: '#fff',
-    boxShadow: '0 1px 3px 0 rgba(99, 102, 241, 0.2)',
+    boxShadow: theme.palette.mode === 'light' 
+      ? '0 1px 3px 0 rgba(99, 102, 241, 0.2)'
+      : '0 1px 3px 0 rgba(0, 0, 0, 0.2)',
     '&:hover': {
-      backgroundColor: '#4F46E5',
+      backgroundColor: theme.palette.primary.dark,
     },
     '& .MuiListItemIcon-root': {
       color: '#fff',
     },
   },
   '&:hover': {
-    backgroundColor: '#F1F5F9',
+    backgroundColor: theme.palette.mode === 'light' 
+      ? '#F1F5F9' 
+      : 'rgba(255, 255, 255, 0.05)',
   },
 }));
 
@@ -108,14 +112,14 @@ const Sidebar = ({ open, onToggle, isMobile }: SidebarProps) => {
             <Box sx={{ 
               fontSize: '1.125rem', 
               fontWeight: 600,
-              color: '#6366F1',
+              color: theme.palette.primary.main,
               lineHeight: 1.2,
             }}>
               Studio
             </Box>
             <Box sx={{ 
               fontSize: '0.75rem',
-              color: '#64748B',
+              color: theme.palette.text.secondary,
               lineHeight: 1.2,
             }}>
               Manager
@@ -150,7 +154,9 @@ const Sidebar = ({ open, onToggle, isMobile }: SidebarProps) => {
                       minWidth: 0,
                       mr: open ? 1.5 : 'auto',
                       justifyContent: 'center',
-                      color: location.pathname === item.path ? '#fff' : '#64748B',
+                      color: location.pathname === item.path 
+                        ? '#fff' 
+                        : theme.palette.text.secondary,
                       fontSize: '1.25rem',
                     }}
                   >
@@ -164,7 +170,7 @@ const Sidebar = ({ open, onToggle, isMobile }: SidebarProps) => {
                         '& .MuiListItemText-primary': {
                           fontSize: '0.813rem',
                           fontWeight: location.pathname === item.path ? 600 : 500,
-                          color: location.pathname === item.path ? '#fff' : '#64748B',
+                          color: location.pathname === item.path ? '#fff' : theme.palette.text.secondary,
                         },
                       }}
                     />
@@ -188,8 +194,8 @@ const Sidebar = ({ open, onToggle, isMobile }: SidebarProps) => {
         sx={{
           '& .MuiDrawer-paper': {
             width: drawerWidth,
-            backgroundColor: '#fff',
-            boxShadow: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
+            backgroundColor: theme.palette.mode === 'light' ? '#fff' : theme.palette.background.paper,
+            boxShadow: theme.shadows[1],
           },
           '& .MuiBackdrop-root': {
             backgroundColor: 'rgba(0, 0, 0, 0.3)',
