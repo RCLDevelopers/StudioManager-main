@@ -22,7 +22,7 @@ const DashboardLayout = () => {
     <Box sx={{ 
       display: 'flex', 
       minHeight: '100vh',
-      backgroundColor: '#F1F5F9',
+      backgroundColor: '#F8FAFC', 
       overflow: 'hidden',
       position: 'relative',
     }}>
@@ -65,20 +65,35 @@ const DashboardLayout = () => {
           component="div"
           sx={{
             flexGrow: 1,
-            p: { xs: 0.5, sm: 1 },
-            backgroundColor: '#F1F5F9',
+            p: { xs: 0, sm: 0 }, 
+            backgroundColor: '#F8FAFC',
             overflow: 'auto',
             width: '100%',
             maxWidth: '100%',
             display: 'flex',
             flexDirection: 'column',
-            minHeight: `calc(100vh - 56px)`, // Subtract navbar height
+            minHeight: `calc(100vh - 56px)`, 
+            '&::-webkit-scrollbar': {
+              width: '4px',
+              height: '4px',
+            },
+            '&::-webkit-scrollbar-track': {
+              background: 'transparent',
+            },
+            '&::-webkit-scrollbar-thumb': {
+              background: '#CBD5E1',
+              borderRadius: '4px',
+            },
+            '&::-webkit-scrollbar-thumb:hover': {
+              background: '#94A3B8',
+            },
           }}
         >
           <Box sx={{ 
             maxWidth: '100%',
             margin: '0 auto',
             flexGrow: 1,
+            width: '100%',
           }}>
             <Outlet />
           </Box>

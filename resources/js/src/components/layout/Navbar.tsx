@@ -17,15 +17,17 @@ import SearchIcon from '@mui/icons-material/Search';
 import LanguageIcon from '@mui/icons-material/Language';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { styled } from '@mui/material/styles';
+import ThemeToggle from './ThemeToggle';
+import { useThemeContext } from '@/theme/ThemeContext';
 
 interface NavbarProps {
   onMenuClick: () => void;
 }
 
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
-  backgroundColor: '#fff',
-  color: '#1E293B',
-  boxShadow: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
+  backgroundColor: theme.palette.mode === 'light' ? '#fff' : theme.palette.background.paper,
+  color: theme.palette.text.primary,
+  boxShadow: theme.shadows[1],
   backdropFilter: 'blur(8px)',
   WebkitBackdropFilter: 'blur(8px)',
   minHeight: 56,
@@ -34,9 +36,9 @@ const StyledAppBar = styled(AppBar)(({ theme }) => ({
 const SearchWrapper = styled(Box)(({ theme }) => ({
   position: 'relative',
   borderRadius: '6px',
-  backgroundColor: '#F1F5F9',
+  backgroundColor: theme.palette.mode === 'light' ? '#F1F5F9' : 'rgba(255, 255, 255, 0.05)',
   '&:hover': {
-    backgroundColor: '#F8FAFC',
+    backgroundColor: theme.palette.mode === 'light' ? '#F8FAFC' : 'rgba(255, 255, 255, 0.1)',
   },
   marginRight: theme.spacing(1),
   marginLeft: 0,
@@ -55,11 +57,11 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  color: '#64748B',
+  color: theme.palette.text.secondary,
 }));
 
 const StyledInput = styled('input')(({ theme }) => ({
-  color: '#1E293B',
+  color: theme.palette.text.primary,
   padding: '6px 8px 6px 0',
   paddingLeft: `calc(1em + ${theme.spacing(3)})`,
   transition: theme.transitions.create('width'),
@@ -70,7 +72,7 @@ const StyledInput = styled('input')(({ theme }) => ({
   backgroundColor: 'transparent',
   fontSize: '0.813rem',
   '&::placeholder': {
-    color: '#64748B',
+    color: theme.palette.text.secondary,
     opacity: 1,
   },
   [theme.breakpoints.up('md')]: {
@@ -80,18 +82,19 @@ const StyledInput = styled('input')(({ theme }) => ({
 
 const LanguageButton = styled(Button)(({ theme }) => ({
   textTransform: 'none',
-  color: '#64748B',
-  backgroundColor: '#F1F5F9',
+  color: theme.palette.text.secondary,
+  backgroundColor: theme.palette.mode === 'light' ? '#F1F5F9' : 'rgba(255, 255, 255, 0.05)',
   borderRadius: '6px',
   padding: '4px 8px',
   minHeight: 32,
   '&:hover': {
-    backgroundColor: '#F8FAFC',
+    backgroundColor: theme.palette.mode === 'light' ? '#F8FAFC' : 'rgba(255, 255, 255, 0.1)',
   },
 }));
 
 const Navbar = ({ onMenuClick }: NavbarProps) => {
   const theme = useTheme();
+  const { mode } = useThemeContext();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
@@ -103,10 +106,10 @@ const Navbar = ({ onMenuClick }: NavbarProps) => {
           onClick={onMenuClick}
           sx={{
             mr: 1,
-            color: '#64748B',
+            color: theme.palette.text.secondary,
             padding: '6px',
             '&:hover': {
-              backgroundColor: '#F1F5F9',
+              backgroundColor: theme.palette.mode === 'light' ? '#F1F5F9' : 'rgba(255, 255, 255, 0.05)',
             },
           }}
         >
@@ -128,6 +131,8 @@ const Navbar = ({ onMenuClick }: NavbarProps) => {
         <Box sx={{ flexGrow: 1 }} />
 
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          <ThemeToggle />
+          
           {!isMobile && (
             <LanguageButton
               startIcon={<LanguageIcon sx={{ fontSize: '1.125rem' }} />}
@@ -141,11 +146,11 @@ const Navbar = ({ onMenuClick }: NavbarProps) => {
           <IconButton
             size="small"
             sx={{
-              color: '#64748B',
-              backgroundColor: '#F1F5F9',
+              color: theme.palette.text.secondary,
+              backgroundColor: theme.palette.mode === 'light' ? '#F1F5F9' : 'rgba(255, 255, 255, 0.05)',
               padding: '6px',
               '&:hover': {
-                backgroundColor: '#F8FAFC',
+                backgroundColor: theme.palette.mode === 'light' ? '#F8FAFC' : 'rgba(255, 255, 255, 0.1)',
               },
             }}
           >
@@ -170,7 +175,7 @@ const Navbar = ({ onMenuClick }: NavbarProps) => {
               sx={{
                 width: 32,
                 height: 32,
-                bgcolor: '#6366F1',
+                bgcolor: theme.palette.primary.main,
                 fontSize: '0.875rem',
               }}
             >
@@ -182,7 +187,7 @@ const Navbar = ({ onMenuClick }: NavbarProps) => {
                   <Typography
                     variant="subtitle2"
                     sx={{
-                      color: '#1E293B',
+                      color: theme.palette.text.primary,
                       fontWeight: 600,
                       fontSize: '0.813rem',
                       lineHeight: 1.2,
@@ -193,7 +198,7 @@ const Navbar = ({ onMenuClick }: NavbarProps) => {
                   <Typography
                     variant="caption"
                     sx={{
-                      color: '#64748B',
+                      color: theme.palette.text.secondary,
                       fontSize: '0.688rem',
                       lineHeight: 1.2,
                     }}
@@ -204,7 +209,7 @@ const Navbar = ({ onMenuClick }: NavbarProps) => {
                 <IconButton
                   size="small"
                   sx={{
-                    color: '#64748B',
+                    color: theme.palette.text.secondary,
                     padding: '4px',
                   }}
                 >

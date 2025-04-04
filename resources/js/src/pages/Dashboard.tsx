@@ -59,12 +59,13 @@ const Dashboard = () => {
       width: '100%',
       maxWidth: '100%',
       overflow: 'hidden',
+      pb: 2,
     }}>
       <Container 
         maxWidth={false}
         disableGutters 
         sx={{
-          px: { xs: 0.5, sm: 1 }, 
+          px: { xs: 0.75, sm: 1.5 }, 
           maxWidth: '100%',
         }}
       >
@@ -75,19 +76,20 @@ const Dashboard = () => {
             justifyContent: 'space-between',
             alignItems: { xs: 'flex-start', sm: 'center' },
             gap: { xs: 1, sm: 0 },
-            mb: { xs: 1, sm: 2 }, 
+            mb: { xs: 1.5, sm: 2.5 }, 
             width: '100%',
-            px: { xs: 0.5, sm: 1 }, 
+            px: { xs: 0.75, sm: 0 }, 
           }}
         >
           <Box>
             <Typography
               variant="h4"
               sx={{
-                fontSize: { xs: '1.125rem', sm: '1.25rem', md: '1.5rem' }, 
+                fontSize: { xs: '1.25rem', sm: '1.375rem', md: '1.5rem' }, 
                 fontWeight: 600,
                 color: '#1E293B',
                 mb: 0.5,
+                lineHeight: 1.2,
               }}
             >
               Dashboard
@@ -97,6 +99,7 @@ const Dashboard = () => {
               sx={{
                 color: '#64748B',
                 fontSize: { xs: '0.75rem', sm: '0.813rem' }, 
+                lineHeight: 1.5,
               }}
             >
               Welcome back! Here's what's happening with your business today.
@@ -104,7 +107,7 @@ const Dashboard = () => {
           </Box>
           <Button
             variant="contained"
-            startIcon={<FileDownloadIcon />}
+            startIcon={<FileDownloadIcon sx={{ fontSize: '1.125rem' }} />}
             sx={{
               display: { xs: 'none', sm: 'flex' },
               bgcolor: '#6366F1',
@@ -112,18 +115,21 @@ const Dashboard = () => {
                 bgcolor: '#4F46E5',
               },
               textTransform: 'none',
-              borderRadius: '8px',
-              boxShadow: 'none',
-              whiteSpace: 'nowrap',
-              py: 1, 
-              px: 2,
+              fontSize: '0.813rem',
+              fontWeight: 500,
+              borderRadius: '6px',
+              boxShadow: '0 1px 2px rgba(100, 116, 139, 0.12)',
+              py: 0.75, 
+              px: 1.5,
+              height: 36,
+              lineHeight: 1,
             }}
           >
             Download Report
           </Button>
         </Box>
 
-        <Grid container spacing={{ xs: 1, sm: 1.5 }}> 
+        <Grid container spacing={{ xs: 1.5, sm: 2 }}> 
           {stats.map((stat, index) => (
             <Grid item xs={6} md={3} key={index}>
               <StatCard {...stat} />
@@ -131,34 +137,76 @@ const Dashboard = () => {
           ))}
 
           <Grid item xs={12} lg={8}>
-            <Box sx={{ height: { xs: 280, sm: 350 } }}> 
+            <Box sx={{ 
+              height: { xs: 280, sm: 320, md: 350 },
+              backgroundColor: '#fff',
+              borderRadius: '8px',
+              boxShadow: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
+              p: { xs: 1.5, sm: 2 },
+              overflow: 'hidden',
+            }}> 
               <TotalRevenue />
             </Box>
           </Grid>
           <Grid item xs={12} lg={4}>
-            <Box sx={{ height: { xs: 280, sm: 350 } }}>
+            <Box sx={{ 
+              height: { xs: 280, sm: 320, md: 350 },
+              backgroundColor: '#fff',
+              borderRadius: '8px',
+              boxShadow: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
+              p: { xs: 1.5, sm: 2 },
+              overflow: 'hidden',
+            }}>
               <CustomerSatisfaction />
             </Box>
           </Grid>
 
           <Grid item xs={12} md={6} lg={4}>
-            <Box sx={{ height: { xs: 280, sm: 320 } }}>
+            <Box sx={{ 
+              height: { xs: 280, sm: 300 },
+              backgroundColor: '#fff',
+              borderRadius: '8px',
+              boxShadow: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
+              p: { xs: 1.5, sm: 2 },
+              overflow: 'hidden',
+            }}>
               <VisitorInsights />
             </Box>
           </Grid>
           <Grid item xs={12} md={6} lg={4}>
-            <Box sx={{ height: { xs: 280, sm: 320 } }}>
+            <Box sx={{ 
+              height: { xs: 280, sm: 300 },
+              backgroundColor: '#fff',
+              borderRadius: '8px',
+              boxShadow: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
+              p: { xs: 1.5, sm: 2 },
+              overflow: 'hidden',
+            }}>
               <ProductPerformance />
             </Box>
           </Grid>
           <Grid item xs={12} lg={4}>
-            <Box sx={{ height: { xs: 280, sm: 320 } }}>
+            <Box sx={{ 
+              height: { xs: 280, sm: 300 },
+              backgroundColor: '#fff',
+              borderRadius: '8px',
+              boxShadow: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
+              p: { xs: 1.5, sm: 2 },
+              overflow: 'hidden',
+            }}>
               <TargetReality />
             </Box>
           </Grid>
 
           <Grid item xs={12}>
-            <Box sx={{ height: { xs: 280, sm: 350 } }}>
+            <Box sx={{ 
+              height: { xs: 280, sm: 320, md: 350 },
+              backgroundColor: '#fff',
+              borderRadius: '8px',
+              boxShadow: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
+              p: { xs: 1.5, sm: 2 },
+              overflow: 'hidden',
+            }}>
               <WorldMap />
             </Box>
           </Grid>

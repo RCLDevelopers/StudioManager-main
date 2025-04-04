@@ -1,4 +1,7 @@
 import { createTheme } from '@mui/material/styles';
+import lightTheme from './lightTheme';
+import darkTheme from './darkTheme';
+import ThemeProvider, { useThemeContext } from './ThemeContext';
 
 const theme = createTheme({
   palette: {
@@ -24,4 +27,10 @@ const theme = createTheme({
   },
 });
 
-export default theme; 
+export { 
+  lightTheme, 
+  darkTheme,
+  ThemeProvider,
+  useThemeContext,
+  theme as default
+};

@@ -33,7 +33,7 @@ const StyledDrawer = styled(Drawer)(({ theme }) => ({
     border: 'none',
     backgroundColor: '#fff',
     overflowX: 'hidden',
-    boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
+    boxShadow: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
   },
   '&.collapsed .MuiDrawer-paper': {
     width: collapsedWidth,
@@ -45,12 +45,14 @@ const StyledDrawer = styled(Drawer)(({ theme }) => ({
 }));
 
 const StyledListItemButton = styled(ListItemButton)(({ theme }) => ({
-  margin: '4px 12px',
-  padding: '10px 12px',
-  borderRadius: '8px',
+  margin: '4px 8px',
+  padding: '8px 12px',
+  borderRadius: '6px',
+  transition: 'all 0.2s ease',
   '&.Mui-selected': {
     backgroundColor: '#6366F1',
     color: '#fff',
+    boxShadow: '0 1px 3px 0 rgba(99, 102, 241, 0.2)',
     '&:hover': {
       backgroundColor: '#4F46E5',
     },
@@ -70,13 +72,13 @@ interface NavItem {
 }
 
 const menuItems: NavItem[] = [
-  { text: 'Dashboard', icon: <DashboardIcon />, path: '/' },
-  { text: 'Studios', icon: <CameraIcon />, path: '/studios' },
-  { text: 'Bookings', icon: <EventIcon />, path: '/bookings' },
-  { text: 'Equipment', icon: <PhotoCameraIcon />, path: '/equipment' },
-  { text: 'Payments', icon: <PaymentIcon />, path: '/payments' },
-  { text: 'Reports', icon: <AssessmentIcon />, path: '/reports' },
-  { text: 'Settings', icon: <SettingsIcon />, path: '/settings' },
+  { text: 'Dashboard', icon: <DashboardIcon fontSize="small" />, path: '/' },
+  { text: 'Studios', icon: <CameraIcon fontSize="small" />, path: '/studios' },
+  { text: 'Bookings', icon: <EventIcon fontSize="small" />, path: '/bookings' },
+  { text: 'Equipment', icon: <PhotoCameraIcon fontSize="small" />, path: '/equipment' },
+  { text: 'Payments', icon: <PaymentIcon fontSize="small" />, path: '/payments' },
+  { text: 'Reports', icon: <AssessmentIcon fontSize="small" />, path: '/reports' },
+  { text: 'Settings', icon: <SettingsIcon fontSize="small" />, path: '/settings' },
 ];
 
 const Sidebar = ({ open, onToggle, isMobile }: SidebarProps) => {
@@ -84,26 +86,27 @@ const Sidebar = ({ open, onToggle, isMobile }: SidebarProps) => {
   const location = useLocation();
 
   const sidebarContent = (
-    <Box sx={{ overflow: 'auto', height: '100%', py: 2 }}>
+    <Box sx={{ overflow: 'auto', height: '100%', py: 1.5 }}>
       <Box sx={{ 
-        px: { xs: 1, sm: 2 }, 
-        mb: 4, 
+        px: { xs: 1, sm: 1.5 }, 
+        mb: 2, 
         display: 'flex', 
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: open ? 'flex-start' : 'center',
+        ml: open ? 1 : 0,
       }}>
         <img 
           src="/logo.png" 
           alt="Logo" 
           style={{ 
-            height: '40px',
+            height: '32px',
             width: 'auto',
           }} 
         />
         {open && (
-          <Box sx={{ ml: 2, display: 'flex', flexDirection: 'column' }}>
+          <Box sx={{ ml: 1.5, display: 'flex', flexDirection: 'column' }}>
             <Box sx={{ 
-              fontSize: '1.25rem', 
+              fontSize: '1.125rem', 
               fontWeight: 600,
               color: '#6366F1',
               lineHeight: 1.2,
@@ -111,8 +114,9 @@ const Sidebar = ({ open, onToggle, isMobile }: SidebarProps) => {
               Studio
             </Box>
             <Box sx={{ 
-              fontSize: '0.875rem',
+              fontSize: '0.75rem',
               color: '#64748B',
+              lineHeight: 1.2,
             }}>
               Manager
             </Box>
@@ -120,7 +124,7 @@ const Sidebar = ({ open, onToggle, isMobile }: SidebarProps) => {
         )}
       </Box>
 
-      <List>
+      <List sx={{ px: 0 }}>
         {menuItems.map((item) => {
           const StyledLink = styled(Link)({
             textDecoration: 'none',
@@ -130,23 +134,24 @@ const Sidebar = ({ open, onToggle, isMobile }: SidebarProps) => {
           });
 
           return (
-            <ListItem key={item.text} disablePadding>
+            <ListItem key={item.text} disablePadding sx={{ mb: 0.5 }}>
               <StyledLink to={item.path}>
                 <StyledListItemButton
                   selected={location.pathname === item.path}
                   sx={{
-                    minHeight: 44,
+                    minHeight: 40,
                     justifyContent: open ? 'initial' : 'center',
-                    px: 2.5,
+                    px: 2,
                     width: '100%',
                   }}
                 >
                   <ListItemIcon
                     sx={{
                       minWidth: 0,
-                      mr: open ? 2 : 'auto',
+                      mr: open ? 1.5 : 'auto',
                       justifyContent: 'center',
                       color: location.pathname === item.path ? '#fff' : '#64748B',
+                      fontSize: '1.25rem',
                     }}
                   >
                     {item.icon}
@@ -157,8 +162,8 @@ const Sidebar = ({ open, onToggle, isMobile }: SidebarProps) => {
                       sx={{
                         opacity: 1,
                         '& .MuiListItemText-primary': {
-                          fontSize: '0.875rem',
-                          fontWeight: location.pathname === item.path ? 600 : 400,
+                          fontSize: '0.813rem',
+                          fontWeight: location.pathname === item.path ? 600 : 500,
                           color: location.pathname === item.path ? '#fff' : '#64748B',
                         },
                       }}
@@ -184,7 +189,10 @@ const Sidebar = ({ open, onToggle, isMobile }: SidebarProps) => {
           '& .MuiDrawer-paper': {
             width: drawerWidth,
             backgroundColor: '#fff',
-            boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
+            boxShadow: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
+          },
+          '& .MuiBackdrop-root': {
+            backgroundColor: 'rgba(0, 0, 0, 0.3)',
           },
         }}
       >
