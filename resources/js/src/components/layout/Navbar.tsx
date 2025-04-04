@@ -25,30 +25,30 @@ interface NavbarProps {
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
   backgroundColor: '#fff',
   color: '#1E293B',
-  boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
+  boxShadow: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
   backdropFilter: 'blur(8px)',
   WebkitBackdropFilter: 'blur(8px)',
-  padding: theme.spacing(1, 0),
+  minHeight: 56,
 }));
 
 const SearchWrapper = styled(Box)(({ theme }) => ({
   position: 'relative',
-  borderRadius: '8px',
+  borderRadius: '6px',
   backgroundColor: '#F1F5F9',
   '&:hover': {
     backgroundColor: '#F8FAFC',
   },
-  marginRight: theme.spacing(2),
+  marginRight: theme.spacing(1),
   marginLeft: 0,
   width: '100%',
   [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(3),
+    marginLeft: theme.spacing(2),
     width: 'auto',
   },
 }));
 
 const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
+  padding: theme.spacing(0, 1.5),
   height: '100%',
   position: 'absolute',
   pointerEvents: 'none',
@@ -60,21 +60,21 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
 
 const StyledInput = styled('input')(({ theme }) => ({
   color: '#1E293B',
-  padding: theme.spacing(1, 1, 1, 0),
-  paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+  padding: '6px 8px 6px 0',
+  paddingLeft: `calc(1em + ${theme.spacing(3)})`,
   transition: theme.transitions.create('width'),
   width: '100%',
-  height: '40px',
+  height: '32px',
   border: 'none',
   outline: 'none',
   backgroundColor: 'transparent',
-  fontSize: '0.875rem',
+  fontSize: '0.813rem',
   '&::placeholder': {
     color: '#64748B',
     opacity: 1,
   },
   [theme.breakpoints.up('md')]: {
-    width: '40ch',
+    width: '32ch',
   },
 }));
 
@@ -82,8 +82,9 @@ const LanguageButton = styled(Button)(({ theme }) => ({
   textTransform: 'none',
   color: '#64748B',
   backgroundColor: '#F1F5F9',
-  borderRadius: '8px',
-  padding: '6px 12px',
+  borderRadius: '6px',
+  padding: '4px 8px',
+  minHeight: 32,
   '&:hover': {
     backgroundColor: '#F8FAFC',
   },
@@ -95,26 +96,27 @@ const Navbar = ({ onMenuClick }: NavbarProps) => {
 
   return (
     <StyledAppBar position="sticky">
-      <Toolbar>
+      <Toolbar sx={{ minHeight: 56, px: { xs: 1, sm: 2 } }}>
         <IconButton
           edge="start"
           aria-label="menu"
           onClick={onMenuClick}
           sx={{
-            mr: 2,
+            mr: 1,
             color: '#64748B',
+            padding: '6px',
             '&:hover': {
               backgroundColor: '#F1F5F9',
             },
           }}
         >
-          <MenuIcon />
+          <MenuIcon sx={{ fontSize: '1.25rem' }} />
         </IconButton>
 
         {!isMobile && (
           <SearchWrapper>
             <SearchIconWrapper>
-              <SearchIcon />
+              <SearchIcon sx={{ fontSize: '1.125rem' }} />
             </SearchIconWrapper>
             <StyledInput
               placeholder="Search..."
@@ -125,36 +127,51 @@ const Navbar = ({ onMenuClick }: NavbarProps) => {
 
         <Box sx={{ flexGrow: 1 }} />
 
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           {!isMobile && (
             <LanguageButton
-              startIcon={<LanguageIcon />}
-              endIcon={<KeyboardArrowDownIcon />}
+              startIcon={<LanguageIcon sx={{ fontSize: '1.125rem' }} />}
+              endIcon={<KeyboardArrowDownIcon sx={{ fontSize: '1.125rem' }} />}
+              size="small"
             >
               English
             </LanguageButton>
           )}
           
           <IconButton
+            size="small"
             sx={{
               color: '#64748B',
               backgroundColor: '#F1F5F9',
+              padding: '6px',
               '&:hover': {
                 backgroundColor: '#F8FAFC',
               },
             }}
           >
-            <Badge badgeContent={4} color="error">
-              <NotificationsIcon />
+            <Badge 
+              badgeContent={4} 
+              color="error"
+              sx={{
+                '& .MuiBadge-badge': {
+                  fontSize: '0.688rem',
+                  height: 16,
+                  minWidth: 16,
+                  padding: '0 4px',
+                },
+              }}
+            >
+              <NotificationsIcon sx={{ fontSize: '1.25rem' }} />
             </Badge>
           </IconButton>
 
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <Avatar
               sx={{
-                width: 40,
-                height: 40,
+                width: 32,
+                height: 32,
                 bgcolor: '#6366F1',
+                fontSize: '0.875rem',
               }}
             >
               A
@@ -167,6 +184,8 @@ const Navbar = ({ onMenuClick }: NavbarProps) => {
                     sx={{
                       color: '#1E293B',
                       fontWeight: 600,
+                      fontSize: '0.813rem',
+                      lineHeight: 1.2,
                     }}
                   >
                     Admin User
@@ -175,6 +194,8 @@ const Navbar = ({ onMenuClick }: NavbarProps) => {
                     variant="caption"
                     sx={{
                       color: '#64748B',
+                      fontSize: '0.688rem',
+                      lineHeight: 1.2,
                     }}
                   >
                     Administrator
@@ -184,9 +205,10 @@ const Navbar = ({ onMenuClick }: NavbarProps) => {
                   size="small"
                   sx={{
                     color: '#64748B',
+                    padding: '4px',
                   }}
                 >
-                  <KeyboardArrowDownIcon />
+                  <KeyboardArrowDownIcon sx={{ fontSize: '1.125rem' }} />
                 </IconButton>
               </>
             )}

@@ -62,8 +62,9 @@ const Dashboard = () => {
     }}>
       <Container 
         maxWidth={false}
+        disableGutters 
         sx={{
-          px: { xs: 1, sm: 2, md: 3 },
+          px: { xs: 0.5, sm: 1 }, 
           maxWidth: '100%',
         }}
       >
@@ -73,16 +74,17 @@ const Dashboard = () => {
             flexDirection: { xs: 'column', sm: 'row' },
             justifyContent: 'space-between',
             alignItems: { xs: 'flex-start', sm: 'center' },
-            gap: { xs: 2, sm: 0 },
-            mb: { xs: 2, sm: 4 },
+            gap: { xs: 1, sm: 0 },
+            mb: { xs: 1, sm: 2 }, 
             width: '100%',
+            px: { xs: 0.5, sm: 1 }, 
           }}
         >
           <Box>
             <Typography
               variant="h4"
               sx={{
-                fontSize: { xs: '1.25rem', sm: '1.5rem', md: '2rem' },
+                fontSize: { xs: '1.125rem', sm: '1.25rem', md: '1.5rem' }, 
                 fontWeight: 600,
                 color: '#1E293B',
                 mb: 0.5,
@@ -94,7 +96,7 @@ const Dashboard = () => {
               variant="body1"
               sx={{
                 color: '#64748B',
-                fontSize: { xs: '0.813rem', sm: '0.875rem' },
+                fontSize: { xs: '0.75rem', sm: '0.813rem' }, 
               }}
             >
               Welcome back! Here's what's happening with your business today.
@@ -113,13 +115,15 @@ const Dashboard = () => {
               borderRadius: '8px',
               boxShadow: 'none',
               whiteSpace: 'nowrap',
+              py: 1, 
+              px: 2,
             }}
           >
             Download Report
           </Button>
         </Box>
 
-        <Grid container spacing={{ xs: 1.5, sm: 2, md: 3 }}>
+        <Grid container spacing={{ xs: 1, sm: 1.5 }}> 
           {stats.map((stat, index) => (
             <Grid item xs={6} md={3} key={index}>
               <StatCard {...stat} />
@@ -127,34 +131,34 @@ const Dashboard = () => {
           ))}
 
           <Grid item xs={12} lg={8}>
-            <Box sx={{ height: { xs: 300, sm: 400 } }}>
+            <Box sx={{ height: { xs: 280, sm: 350 } }}> 
               <TotalRevenue />
             </Box>
           </Grid>
           <Grid item xs={12} lg={4}>
-            <Box sx={{ height: { xs: 300, sm: 400 } }}>
+            <Box sx={{ height: { xs: 280, sm: 350 } }}>
               <CustomerSatisfaction />
             </Box>
           </Grid>
 
           <Grid item xs={12} md={6} lg={4}>
-            <Box sx={{ height: { xs: 300, sm: 350 } }}>
+            <Box sx={{ height: { xs: 280, sm: 320 } }}>
               <VisitorInsights />
             </Box>
           </Grid>
           <Grid item xs={12} md={6} lg={4}>
-            <Box sx={{ height: { xs: 300, sm: 350 } }}>
+            <Box sx={{ height: { xs: 280, sm: 320 } }}>
               <ProductPerformance />
             </Box>
           </Grid>
           <Grid item xs={12} lg={4}>
-            <Box sx={{ height: { xs: 300, sm: 350 } }}>
+            <Box sx={{ height: { xs: 280, sm: 320 } }}>
               <TargetReality />
             </Box>
           </Grid>
 
           <Grid item xs={12}>
-            <Box sx={{ height: { xs: 300, sm: 400 } }}>
+            <Box sx={{ height: { xs: 280, sm: 350 } }}>
               <WorldMap />
             </Box>
           </Grid>

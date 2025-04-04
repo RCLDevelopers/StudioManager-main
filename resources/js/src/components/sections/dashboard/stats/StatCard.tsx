@@ -14,39 +14,40 @@ interface StatCardProps {
 }
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
-  padding: theme.spacing(3),
+  padding: theme.spacing(2),
   height: '100%',
   display: 'flex',
   flexDirection: 'column',
   position: 'relative',
   overflow: 'hidden',
   backgroundColor: '#fff',
-  borderRadius: '12px',
-  boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
+  borderRadius: '8px',
+  boxShadow: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
   transition: 'transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out',
   '&:hover': {
-    transform: 'translateY(-4px)',
-    boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+    transform: 'translateY(-2px)',
+    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
   },
   [theme.breakpoints.down('sm')]: {
-    padding: theme.spacing(2),
+    padding: theme.spacing(1.5),
   },
 }));
 
 const IconWrapper = styled(Box)<{ bgcolor: string }>(({ theme, bgcolor }) => ({
-  width: 48,
-  height: 48,
-  borderRadius: '10px',
+  width: 40,
+  height: 40,
+  borderRadius: '8px',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   backgroundColor: bgcolor,
-  marginBottom: theme.spacing(2),
+  marginBottom: theme.spacing(1.5),
   [theme.breakpoints.down('sm')]: {
-    width: 40,
-    height: 40,
+    width: 32,
+    height: 32,
+    marginBottom: theme.spacing(1),
     '& > svg': {
-      fontSize: '1.25rem',
+      fontSize: '1.125rem',
     },
   },
 }));
@@ -59,16 +60,19 @@ const StatCard = ({ icon, title, value, change, bgColor, iconColor }: StatCardPr
   return (
     <StyledPaper>
       <IconWrapper bgcolor={bgColor}>
-        <Box sx={{ color: iconColor, '& > svg': { fontSize: isMobile ? 20 : 24 } }}>
+        <Box sx={{ color: iconColor, '& > svg': { fontSize: isMobile ? 16 : 20 } }}>
           {icon}
         </Box>
       </IconWrapper>
       <Typography 
         variant="subtitle2" 
         sx={{
-          fontSize: isMobile ? '0.75rem' : '0.875rem',
+          fontSize: isMobile ? '0.688rem' : '0.75rem',
           color: '#64748B',
-          mb: 0.5,
+          mb: 0.25,
+          whiteSpace: 'nowrap',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
         }}
       >
         {title}
@@ -76,26 +80,28 @@ const StatCard = ({ icon, title, value, change, bgColor, iconColor }: StatCardPr
       <Typography 
         variant="h4" 
         sx={{
-          fontSize: isMobile ? '1.5rem' : '1.75rem',
+          fontSize: isMobile ? '1.125rem' : '1.25rem',
           fontWeight: 600,
           color: '#1E293B',
-          mb: 1,
+          mb: 0.5,
+          lineHeight: 1.2,
         }}
       >
         {value}
       </Typography>
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.25 }}>
         {isPositive ? (
-          <TrendingUpIcon sx={{ color: '#22C55E', fontSize: isMobile ? 16 : 20 }} />
+          <TrendingUpIcon sx={{ color: '#22C55E', fontSize: isMobile ? 14 : 16 }} />
         ) : (
-          <TrendingDownIcon sx={{ color: '#EF4444', fontSize: isMobile ? 16 : 20 }} />
+          <TrendingDownIcon sx={{ color: '#EF4444', fontSize: isMobile ? 14 : 16 }} />
         )}
         <Typography 
           variant="body2" 
           sx={{ 
-            fontSize: isMobile ? '0.75rem' : '0.875rem',
+            fontSize: isMobile ? '0.688rem' : '0.75rem',
             color: isPositive ? '#22C55E' : '#EF4444',
             fontWeight: 500,
+            whiteSpace: 'nowrap',
           }}
         >
           {Math.abs(change)}% {isPositive ? 'increase' : 'decrease'}
