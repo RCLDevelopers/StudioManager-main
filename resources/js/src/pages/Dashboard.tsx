@@ -1,4 +1,3 @@
-import React from 'react';
 import { Container, Grid } from '@mui/material';
 import CustomerSatisfaction from '@/components/sections/dashboard/customer-satisfaction/CustomerSatisfaction';
 

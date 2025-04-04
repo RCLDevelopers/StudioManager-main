@@ -45,12 +45,6 @@ export default defineConfig({
         include: /\.[jt]sx?$/,
     },
     optimizeDeps: {
-        esbuildOptions: {
-            loader: {
-                '.js': 'jsx',
-                '.ts': 'tsx',
-            },
-        },
-        disabled: true
+        include: ['react', 'react-dom', 'react-router-dom', '@mui/material', 'echarts', 'echarts-for-react']
     },
 });
