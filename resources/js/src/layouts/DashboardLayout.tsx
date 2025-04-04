@@ -4,6 +4,9 @@ import { Box, useMediaQuery, useTheme } from '@mui/material';
 import Navbar from '@/components/layout/Navbar';
 import Sidebar from '@/components/layout/Sidebar';
 import Footer from '@/components/layout/Footer';
+import VisitorInsights from '../components/dashboard/VisitorInsights';
+import SystemFeaturesInsights from '../components/dashboard/VisitorInsights';
+import RevenueByRegion from '../components/dashboard/RevenueByRegion';
 
 const DashboardLayout = () => {
   const theme = useTheme();

@@ -4,7 +4,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 
 const Footer = () => {
   const theme = useTheme();
-  const currentYear = new Date().getFullYear();
+  // const currentYear = new Date().getFullYear();
 
   return (
     <Box
@@ -46,7 +46,7 @@ const Footer = () => {
               flexWrap: 'wrap',
             }}
           >
-            {currentYear} Studio Manager. All rights reserved.
+            2025 Studio Manager. All rights reserved.
           </Typography>
           
           <Typography
